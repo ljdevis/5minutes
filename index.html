@@ -330,7 +330,7 @@
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
                         <div class="form-group mb-4 hidden" data-question="12.1">
-                            <label for="commodes" class="block text-gray-700">● Nombre de commodes :</label>
+                            <label for="commodes" class="block text-gray-700">Nombre de Commodes :</label>
                             <select id="commodes" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                                 <option value="" disabled selected>Choisissez…</option>
                                 <option value="0">0</option>
@@ -339,7 +339,10 @@
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                             </select>
-                        </div>
+                            <div class="flex justify-between">
+                                <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                                <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                            </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
@@ -426,7 +429,7 @@
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
                         <div class="form-group mb-4 hidden" data-question="16.1">
-                            <label for="lave_linge" class="block text-gray-700">● Nombre de lave-linge et sèche-linge :</label>
+                            <label for="lave_linge" class="block text-gray-700">Nombre de Lave-linge et Sèche-linge :</label>
                             <select id="lave_linge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                                 <option value="" disabled selected>Choisissez…</option>
                                 <option value="0">0</option>
@@ -435,11 +438,10 @@
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                             </select>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
+                            <div class="flex justify-between">
+                                <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                                <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                            </div>
                     </div>
 
                     <div class="form-group mb-4 hidden" data-question="17">
@@ -706,190 +708,91 @@
             }
 
             function calculateCost() {
-                let cost = 0;
-                const formule = document.getElementById('formule').value;
-                const pieces = document.getElementById('pieces').value;
-                const cartons = document.getElementById('cartons').value;
-                const nettoyage = document.getElementById('nettoyage').value;
-                const distance = document.getElementById('distance').value;
-                const lit_adulte = document.getElementById('lit_adulte').value;
-                const commodes = document.getElementById('commodes').value;
-                const lit_enfant = document.getElementById('lit_enfant').value;
-                const meubles = document.getElementById('meubles').value;
-                const canape = document.getElementById('canape').value;
-                const frigo = document.getElementById('frigo').value;
-                const lave_linge = document.getElementById('lave_linge').value;
-                const balcon = document.getElementById('balcon').value;
-                const cave = document.getElementById('cave').value;
-                const acces = document.getElementById('acces').value;
-                const ascenseur = document.getElementById('ascenseur').value;
-                const monte_charge = document.getElementById('monte_charge').value;
+    let cost = 0;
 
-                // Coût par formule
-                if (formule === 'economique') cost += 0;
-                else if (formule === 'premium') cost += 100; // Coût supplémentaire pour premium
-                else if (formule === 'prestige') cost += cost * 1; // Coût supplémentaire pour prestige
+    // Récupérer les valeurs actuelles des champs du formulaire
+    const formule = document.getElementById('formule').value;
+    const pieces = document.getElementById('pieces').value;
+    const cartons = document.getElementById('cartons').value;
+    const nettoyage = document.getElementById('nettoyage').value;
+    const distance = document.getElementById('distance').value;
+    const lit_adulte = document.getElementById('lit_adulte').value;
+    const lit_enfant = document.getElementById('lit_enfant').value;
+    const meubles = document.getElementById('meubles').value;
+    const canape = document.getElementById('canape').value;
+    const frigo = document.getElementById('frigo').value;
+    const balcon = document.getElementById('balcon').value;
+    const cave = document.getElementById('cave').value;
+    const acces = document.getElementById('acces').value;
+    const ascenseur = document.getElementById('ascenseur').value;
+    const monte_charge = document.getElementById('monte_charge').value;
+    const commodes = document.getElementById('commodes').value; // Nouveau champ
+    const lave_linge = document.getElementById('lave_linge').value; // Nouveau champ
 
-                // Coûts en fonction du nombre de pièces
-                const piecesCost = {
-                    studio: 450,
-                    une_piece: 600,
-                    deux_pieces: 900,
-                    trois_pieces: 1250,
-                    quatre_pieces: 1550,
-                    cinq_pieces: 1800,
-                    six_pieces: 2300,
-                    sept_pieces: 2550,
-                    huit_pieces: 2800,
-                    neuf_pieces: 3050,
-                    dix_pieces: 3400
-                };
+    // Coût par formule
+    if (formule === 'economique') cost += 0;
+    else if (formule === 'premium') cost += 100;
+    else if (formule === 'prestige') cost += cost * 1;
 
-                cost += piecesCost[pieces] || 0;
+    // Coûts en fonction du nombre de pièces
+    const piecesCost = {
+        studio: 450,
+        une_piece: 600,
+        deux_pieces: 900,
+        trois_pieces: 1250,
+        quatre_pieces: 1550,
+        cinq_pieces: 1800,
+        six_pieces: 2300,
+        sept_pieces: 2550,
+        huit_pieces: 2800,
+        neuf_pieces: 3050,
+        dix_pieces: 3400
+    };
 
-                // Coût pour les superficies
-                const superficieElement = document.querySelector(`#sous-options-pieces select`);
-                if (superficieElement) {
-                    const selectedOption = superficieElement.options[superficieElement.selectedIndex];
-                    const baseCost = piecesCost[pieces] || 0;
-                    const additionalCostPercentage = parseFloat(selectedOption.dataset.cost) / 100;
-                    cost += baseCost * additionalCostPercentage;
-                }
+    cost += piecesCost[pieces] || 0;
 
-                // Coût pour le nettoyage
-                const nettoyageCosts = {
-                    '30_49': 350,
-                    '50_69': 450,
-                    '70_89': 600,
-                    '90_109': 750,
-                    '110_129': 900,
-                    '130_149': 1050,
-                    '150_169': 1200,
-                    '170_189': 1350,
-                    '190_209': 1500,
-                    'plus_210': 1650
-                };
-                cost += nettoyageCosts[nettoyage] || 0;
+    // Ajoutez ici votre code pour les commodes et lave-linge
+    const commodesCost = {
+        '0': 0,
+        '1': 5,
+        '2': 10,
+        '3': 20,
+        '4': 30
+    };
+    cost += commodesCost[commodes] || 0;
 
-                // Coût pour la distance
-                const distanceCosts = {
-                    '0_9': 0,
-                    '10_29': 50,
-                    '30_49': 80,
-                    '50_69': 120,
-                    '70_89': 160,
-                    '90_109': 210,
-                    'plus_110': 300
-                };
-                cost += distanceCosts[distance] || 0;
+    const laveLingeCost = {
+        '0': 0,
+        '1': 5,
+        '2': 10,
+        '3': 20,
+        '4': 30
+    };
+    cost += laveLingeCost[lave_linge] || 0;
 
-                // Coût pour les cartons
-                const cartonsCosts = {
-                    'formule_m': 49,
-                    'formule_l': 138,
-                    'formule_xl': 270
-                };
-                cost += cartonsCosts[cartons] || 0;
+    // Coût pour les réfrigérateurs
+    const frigoCosts = {
+        '0': 0,
+        '1': 0,
+        '2': 50,
+        '3': 100,
+        '4': 150,
+        '5': 200,
+        '6': 250,
+        '7': 300,
+        '8': 350,
+        'plus_de_huit': 400
+    };
+    cost += frigoCosts[frigo] || 0;
 
-                // Coût pour les lits adultes
-                const litAdulteCosts = {
-                    '0': 0,
-                    '1': 0,
-                    '2': 50,
-                    '3': 100,
-                    '4': 150,
-                    '5': 200,
-                    '6': 250,
-                    '7': 300,
-                    '8': 350,
-                    'plus_de_huit': 400
-                };
-                cost += litAdulteCosts[lit_adulte] || 0;
-
-                // Coût pour les commodes
-                const commodeCosts = {
-                    '0': 0,
-                    '1': 5,
-                    '2': 10,
-                    '3': 20,
-                    '4': 30
-                };
-                cost += commodeCosts[commodes] || 0;
-
-                // Coût pour les lits enfants
-                const litEnfantCosts = {
-                    '0': 0,
-                    '1': 0,
-                    '2': 0,
-                    '3': 50,
-                    '4': 75,
-                    '5': 100,
-                    '6': 125,
-                    '7': 150,
-                    '8': 175,
-                    'plus_de_huit': 200
-                };
-                cost += litEnfantCosts[lit_enfant] || 0;
-
-                // Coût pour les meubles
-                const meubleCosts = {
-                    '0': 0,
-                    '1': 150,
-                    '2': 300,
-                    '3': 450,
-                    '4': 600,
-                    '5': 750,
-                    '6': 900,
-                    '7': 1050,
-                    '8': 1200,
-                    'plus_de_huit': 1350
-                };
-                cost += meubleCosts[meubles] || 0;
-
-                // Coût pour les canapés
-                const canapeCosts = {
-                    '0': -50,
-                    '1': 0,
-                    '2': 0,
-                    '3': 50,
-                    '4': 75,
-                    'autre': 0
-                };
-                cost += canapeCosts[canape] || 0;
-
-                // Coût pour les réfrigérateurs
-                const frigoCosts = {
-                    '0': 0,
-                    '1': 0,
-                    '2': 50,
-                    '3': 100,
-                    '4': 150,
-                    '5': 200,
-                    '6': 250,
-                    '7': 300,
-                    '8': 350,
-                    'plus_de_huit': 400
-                };
-                cost += frigoCosts[frigo] || 0;
-
-                // Coût pour les lave-linge et sèche-linge
-                const laveLingeCosts = {
-                    '0': 0,
-                    '1': 5,
-                    '2': 10,
-                    '3': 20,
-                    '4': 30
-                };
-                cost += laveLingeCosts[lave_linge] || 0;
-
-                // Coûts supplémentaires
-                if (balcon === 'balcon') cost += cost * 0.10; // 10% supplémentaire si balcon
-                if (balcon === 'terrasse') cost += cost * 0.15; // 15% supplémentaire si terrasse
-                if (cave === 'oui') cost += cost * 0.10; // 10% supplémentaire si cave
-                if (acces === 'difficile') cost += cost * 0.20; // 20% supplémentaire si accès difficile
-                if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
-                else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
-                if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
+    // Coûts supplémentaires
+    if (balcon === 'balcon') cost += cost * 0.10; // 10% supplémentaire si balcon
+    if (balcon === 'terrasse') cost += cost * 0.15; // 15% supplémentaire si terrasse
+    if (cave === 'oui') cost += cost * 0.10; // 10% supplémentaire si cave
+    if (acces === 'difficile') cost += cost * 0.20; // 20% supplémentaire si accès difficile
+    if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
+    else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
+    if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
 
                 const originalCost = cost;  // Conserver le coût original
 
