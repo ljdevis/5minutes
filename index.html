@@ -119,7 +119,7 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/oHgKwwmO7mo?autoplay=1&mute=1&loop=1&playlist=oHgKwwmO7mo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/qja2nckHCOg?autoplay=1&mute=1&loop=1&playlist=qja2nckHCOg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
@@ -147,7 +147,7 @@
                     <div id="progress" class="progress"></div>
                 </div>
                 <form id="devisForm" onsubmit="return false;">
-                    <!-- Formulaire avec les questions -->
+                    <!-- Questions 1 à 23 -->
                     <div class="form-group mb-4" data-question="1">
                         <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
                         <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Alan Favre" required oninput="validateName()">
@@ -156,27 +156,24 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="2">
                         <label for="email" class="block text-gray-700">2. Adresse Mail :</label>
-                        <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : alan.favre@exemple.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Veuillez entrer une adresse email valide contenant @ et un domaine." oninput="validateEmail()">
+                        <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : alan.favre@exemple.com" required oninput="validateEmail()">
                         <p class="obligatory-message" id="email-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" id="email-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="3">
                         <label for="telephone" class="block text-gray-700">3. Numéro de Téléphone :</label>
-                        <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : 077 345 34 45" required pattern="^\d{10,15}$" title="Veuillez entrer un numéro de téléphone valide." oninput="validateTelephone()">
+                        <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : 077 345 34 45" required oninput="validateTelephone()">
                         <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="4">
                         <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle & Etage :</label>
                         <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required oninput="validateAddress('adresse_actuelle', 'address1-obligatory')">
@@ -186,17 +183,15 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="5">
                         <label for="adresse_future" class="block text-gray-700">5. Adresse de Destination & Etage :</label>
                         <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required oninput="validateAddress('adresse_future', 'address2-obligatory')">
                         <p class="obligatory-message" id="address2-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="saveFormAndNext()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="6">
                         <label for="statut" class="block text-gray-700">6. Votre Statut :</label>
                         <select id="statut" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -210,7 +205,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="7">
                         <label for="formule" class="block text-gray-700">7. Sélection de la Formule :</label>
                         <select id="formule" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleFormuleChange()">
@@ -224,7 +218,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="8">
                         <label for="objet" class="block text-gray-700">8. Type de Logement :</label>
                         <select id="objet" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleObjetChange()">
@@ -240,7 +233,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="9">
                         <label for="pieces" class="block text-gray-700">9. Nombre de Pièces :</label>
                         <select id="pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handlePiecesChange()">
@@ -263,7 +255,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="10">
                         <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
                         <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
@@ -295,7 +286,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="11">
                         <label for="distance" class="block text-gray-700">11. Distance du Déménagement :</label>
                         <select id="distance" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -313,7 +303,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="12">
                         <label for="lit_adulte" class="block text-gray-700">12. Nombre de Lits Adultes (90x200cm à 180x200cm) :</label>
                         <select id="lit_adulte" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -329,26 +318,11 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
-                        <div class="form-group mb-4 hidden" data-question="12.1">
-                            <label for="commodes" class="block text-gray-700">Nombre de Commodes :</label>
-                            <select id="commodes" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                                <option value="" disabled selected>Choisissez…</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <div class="flex justify-between">
-                                <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                                <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                            </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="13">
                         <label for="lit_enfant" class="block text-gray-700">13. Nombre de Lits Enfants (70x140cm à 90x190cm):</label>
                         <select id="lit_enfant" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -369,7 +343,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="14">
                         <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
                         <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
@@ -395,7 +368,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="15">
                         <label for="canape" class="block text-gray-700">15. Type de Canapés :</label>
                         <select id="canape" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -412,9 +384,8 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="16">
-                        <label for="frigo" class="block text-gray-700">16. Nombre de Réfrigérateurs :</label>
+                        <label for="frigo" class="block text-gray-700">16. Nombre de réfrigérateurs, machines à laver, lave-vaisselle :</label>
                         <select id="frigo" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -428,22 +399,11 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
-                        <div class="form-group mb-4 hidden" data-question="16.1">
-                            <label for="lave_linge" class="block text-gray-700">Nombre de Lave-linge et Sèche-linge :</label>
-                            <select id="lave_linge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                                <option value="" disabled selected>Choisissez…</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <div class="flex justify-between">
-                                <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                                <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                            </div>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="17">
                         <label for="balcon" class="block text-gray-700">17. Présence d'un Balcon ou Terrasse :</label>
                         <select id="balcon" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -457,7 +417,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="18">
                         <label for="cave" class="block text-gray-700">18. Présence d'une Cave :</label>
                         <select id="cave" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -470,7 +429,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="19">
                         <label for="acces" class="block text-gray-700">19. Conditions d'Accès au Bâtiment :</label>
                         <select id="acces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -483,7 +441,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="20">
                         <label for="ascenseur" class="block text-gray-700">20. Ascenseur Disponible dans Le Bâtiment :</label>
                         <select id="ascenseur" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -498,7 +455,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="21">
                         <label for="monte_charge" class="block text-gray-700">21. Monte-Meuble Nécessaire :</label>
                         <select id="monte_charge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -511,7 +467,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="22">
                         <label for="cartons" class="block text-gray-700">22. Besoin de Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
                         <select id="cartons" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
@@ -526,7 +481,6 @@
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
-
                     <div class="form-group mb-4 hidden" data-question="23">
                         <label for="commentaires" class="block text-gray-700">23. Commentaires ou Informations Supplémentaires :</label>
                         <input type="text" id="commentaires" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Toute information supplémentaire">
@@ -607,7 +561,6 @@
             function handleFormuleChange() {
                 const formule = document.getElementById('formule').value;
 
-                // Reset visibility of optional messages
                 document.getElementById('question10-options').classList.add('hidden');
                 document.getElementById('question14-options').classList.add('hidden');
 
@@ -631,63 +584,43 @@
                 questionElement.disabled = true;
             }
 
-            function unlockQuestion(questionNumber, hideOptions = false) {
+            function unlockQuestion(questionNumber) {
                 const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
                 questionElement.disabled = false;
-                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-                if (optionsDiv && hideOptions) {
-                    optionsDiv.classList.add('hidden');
-                }
             }
 
             function validateName() {
                 const nameInput = document.getElementById('nom_prenom');
                 const obligatoryMessage = document.getElementById('name-obligatory');
-
-                if (/[a-z]/i.test(nameInput.value)) {
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                }
+                obligatoryMessage.classList.toggle('valid', nameInput.value.trim() !== "");
             }
 
             function validateEmail() {
                 const emailInput = document.getElementById('email');
                 const nextButton = document.getElementById('email-next-button');
                 const obligatoryMessage = document.getElementById('email-obligatory');
-
-                if (emailInput.value.includes('@')) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                }
+                nextButton.disabled = !emailInput.value.includes('@');
+                obligatoryMessage.classList.toggle('valid', emailInput.value.includes('@'));
             }
 
             function validateTelephone() {
                 const phoneInput = document.getElementById('telephone');
                 const nextButton = document.getElementById('telephone-next-button');
                 const obligatoryMessage = document.getElementById('telephone-obligatory');
-
-                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                }
+                nextButton.disabled = phoneInput.value.replace(/\D/g, '').length < 7;
+                obligatoryMessage.classList.toggle('valid', phoneInput.value.replace(/\D/g, '').length >= 7);
             }
 
             function validateAddress(inputId, messageId) {
                 const addressInput = document.getElementById(inputId);
                 const obligatoryMessage = document.getElementById(messageId);
+                obligatoryMessage.classList.toggle('valid', addressInput.value.trim() !== "");
+            }
 
-                if (/[a-z]/i.test(addressInput.value)) {
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                }
+            function saveFormAndNext() {
+                const cost = calculateCost();
+                saveForm(cost);
+                nextQuestion();
             }
 
             function validateForm() {
@@ -705,113 +638,163 @@
                 const cost = calculateCost();
                 saveForm(cost);
                 checkAdditionalCost();
+                showPage('page3');
             }
 
             function calculateCost() {
-    let cost = 0;
+                let cost = 0;
+                const formule = document.getElementById('formule').value;
+                const pieces = document.getElementById('pieces').value;
+                const cartons = document.getElementById('cartons').value;
+                const nettoyage = document.getElementById('nettoyage').value;
+                const distance = document.getElementById('distance').value;
+                const lit_adulte = document.getElementById('lit_adulte').value;
+                const lit_enfant = document.getElementById('lit_enfant').value;
+                const meubles = document.getElementById('meubles').value;
+                const canape = document.getElementById('canape').value;
+                const frigo = document.getElementById('frigo').value;
+                const balcon = document.getElementById('balcon').value;
+                const cave = document.getElementById('cave').value;
+                const acces = document.getElementById('acces').value;
+                const ascenseur = document.getElementById('ascenseur').value;
+                const monte_charge = document.getElementById('monte_charge').value;
 
-    // Récupérer les valeurs actuelles des champs du formulaire
-    const formule = document.getElementById('formule').value;
-    const pieces = document.getElementById('pieces').value;
-    const cartons = document.getElementById('cartons').value;
-    const nettoyage = document.getElementById('nettoyage').value;
-    const distance = document.getElementById('distance').value;
-    const lit_adulte = document.getElementById('lit_adulte').value;
-    const lit_enfant = document.getElementById('lit_enfant').value;
-    const meubles = document.getElementById('meubles').value;
-    const canape = document.getElementById('canape').value;
-    const frigo = document.getElementById('frigo').value;
-    const balcon = document.getElementById('balcon').value;
-    const cave = document.getElementById('cave').value;
-    const acces = document.getElementById('acces').value;
-    const ascenseur = document.getElementById('ascenseur').value;
-    const monte_charge = document.getElementById('monte_charge').value;
-    const commodes = document.getElementById('commodes').value; // Nouveau champ
-    const lave_linge = document.getElementById('lave_linge').value; // Nouveau champ
+                if (formule === 'economique') cost += 0;
+                else if (formule === 'premium') cost += 100;
+                else if (formule === 'prestige') cost += 200;
 
-    // Coût par formule
-    if (formule === 'economique') cost += 0;
-    else if (formule === 'premium') cost += 100;
-    else if (formule === 'prestige') cost += cost * 1;
+                const piecesCost = {
+                    studio: 450,
+                    une_piece: 600,
+                    deux_pieces: 900,
+                    trois_pieces: 1250,
+                    quatre_pieces: 1550,
+                    cinq_pieces: 1800,
+                    six_pieces: 2300,
+                    sept_pieces: 2550,
+                    huit_pieces: 2800,
+                    neuf_pieces: 3050,
+                    dix_pieces: 3400
+                };
+                cost += piecesCost[pieces] || 0;
 
-    // Coûts en fonction du nombre de pièces
-    const piecesCost = {
-        studio: 450,
-        une_piece: 600,
-        deux_pieces: 900,
-        trois_pieces: 1250,
-        quatre_pieces: 1550,
-        cinq_pieces: 1800,
-        six_pieces: 2300,
-        sept_pieces: 2550,
-        huit_pieces: 2800,
-        neuf_pieces: 3050,
-        dix_pieces: 3400
-    };
+                const nettoyageCosts = {
+                    '30_49': 350,
+                    '50_69': 450,
+                    '70_89': 600,
+                    '90_109': 750,
+                    '110_129': 900,
+                    '130_149': 1050,
+                    '150_169': 1200,
+                    '170_189': 1350,
+                    '190_209': 1500,
+                    'plus_210': 1650
+                };
+                cost += nettoyageCosts[nettoyage] || 0;
 
-    cost += piecesCost[pieces] || 0;
+                const distanceCosts = {
+                    '0_9': 0,
+                    '10_29': 50,
+                    '30_49': 80,
+                    '50_69': 120,
+                    '70_89': 160,
+                    '90_109': 210,
+                    'plus_110': 300
+                };
+                cost += distanceCosts[distance] || 0;
 
-    // Ajoutez ici votre code pour les commodes et lave-linge
-    const commodesCost = {
-        '0': 0,
-        '1': 5,
-        '2': 10,
-        '3': 20,
-        '4': 30
-    };
-    cost += commodesCost[commodes] || 0;
+                const cartonsCosts = {
+                    'formule_m': 49,
+                    'formule_l': 138,
+                    'formule_xl': 270
+                };
+                cost += cartonsCosts[cartons] || 0;
 
-    const laveLingeCost = {
-        '0': 0,
-        '1': 5,
-        '2': 10,
-        '3': 20,
-        '4': 30
-    };
-    cost += laveLingeCost[lave_linge] || 0;
+                const litAdulteCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 50,
+                    '3': 100,
+                    '4': 150,
+                    '5': 200,
+                    '6': 250,
+                    '7': 300,
+                    '8': 350,
+                    'plus_de_huit': 400
+                };
+                cost += litAdulteCosts[lit_adulte] || 0;
 
-    // Coût pour les réfrigérateurs
-    const frigoCosts = {
-        '0': 0,
-        '1': 0,
-        '2': 50,
-        '3': 100,
-        '4': 150,
-        '5': 200,
-        '6': 250,
-        '7': 300,
-        '8': 350,
-        'plus_de_huit': 400
-    };
-    cost += frigoCosts[frigo] || 0;
+                const litEnfantCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 0,
+                    '3': 50,
+                    '4': 75,
+                    '5': 100,
+                    '6': 125,
+                    '7': 150,
+                    '8': 175,
+                    'plus_de_huit': 200
+                };
+                cost += litEnfantCosts[lit_enfant] || 0;
 
-    // Coûts supplémentaires
-    if (balcon === 'balcon') cost += cost * 0.10; // 10% supplémentaire si balcon
-    if (balcon === 'terrasse') cost += cost * 0.15; // 15% supplémentaire si terrasse
-    if (cave === 'oui') cost += cost * 0.10; // 10% supplémentaire si cave
-    if (acces === 'difficile') cost += cost * 0.20; // 20% supplémentaire si accès difficile
-    if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
-    else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
-    if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
+                const meubleCosts = {
+                    '0': 0,
+                    '1': 150,
+                    '2': 300,
+                    '3': 450,
+                    '4': 600,
+                    '5': 750,
+                    '6': 900,
+                    '7': 1050,
+                    '8': 1200,
+                    'plus_de_huit': 1350
+                };
+                cost += meubleCosts[meubles] || 0;
 
-                const originalCost = cost;  // Conserver le coût original
+                const canapeCosts = {
+                    '0': -50,
+                    '1': 0,
+                    '2': 0,
+                    '3': 50,
+                    '4': 75,
+                    'autre': 0
+                };
+                cost += canapeCosts[canape] || 0;
 
-                // Vérifier si c'est le mois de janvier pour appliquer la réduction
+                const frigoCosts = {
+                    '0': 0,
+                    '1': 0,
+                    '2': 50,
+                    '3': 100,
+                    '4': 150,
+                    '5': 200,
+                    '6': 250,
+                    '7': 300,
+                    '8': 350,
+                    'plus_de_huit': 400
+                };
+                cost += frigoCosts[frigo] || 0;
+
+                if (balcon === 'balcon') cost += cost * 0.10;
+                if (balcon === 'terrasse') cost += cost * 0.15;
+                if (cave === 'oui') cost += cost * 0.10;
+                if (acces === 'difficile') cost += cost * 0.20;
+                if (ascenseur === 'non') cost += cost * 0.10;
+                else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+                if (monte_charge === 'oui') cost += 700;
+
+                const originalCost = cost;
                 const today = new Date();
                 let discountedCost = cost;
-                if (today.getMonth() === 0) { // Janvier
-                    discountedCost *= 0.90; // Applique une réduction de 10%
-                    document.getElementById('discount-message').classList.remove('hidden'); // Affiche le message de réduction
+                if (today.getMonth() === 0) {
+                    discountedCost *= 0.90;
+                    document.getElementById('discount-message').classList.remove('hidden');
                 }
 
-                // Arrondir le cost au dixième inférieur
                 const roundedCost = Math.floor(discountedCost * 10) / 10;
-
-                // Mettre à jour les prix affichés
                 document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
                 document.getElementById('discountedPrice').innerText = roundedCost.toFixed(2);
-                
-                // Afficher le prix normal dans l'élément prixDevis
                 document.getElementById('originalCost').innerText = originalCost.toFixed(2);
                 return cost;
             }
@@ -832,12 +815,10 @@
                     Nettoyage: document.getElementById('nettoyage').value,
                     Distance: document.getElementById('distance').value,
                     Lit_adulte: document.getElementById('lit_adulte').value,
-                    Commodes: document.getElementById('commodes').value,
                     Lit_enfant: document.getElementById('lit_enfant').value,
                     Meubles: document.getElementById('meubles').value,
                     Canape: document.getElementById('canape').value,
                     Frigo: document.getElementById('frigo').value,
-                    Lave_linge: document.getElementById('lave_linge').value,
                     Balcon: document.getElementById('balcon').value,
                     Cave: document.getElementById('cave').value,
                     Acces: document.getElementById('acces').value,
@@ -865,12 +846,10 @@
                     Nettoyage: ${formDetails.Nettoyage}
                     Distance: ${formDetails.Distance}
                     Lits Adultes: ${formDetails.Lit_adulte}
-                    Commodes: ${formDetails.Commodes}
                     Lits Enfants: ${formDetails.Lit_enfant}
                     Meubles: ${formDetails.Meubles}
                     Canapé: ${formDetails.Canape}
                     Frigo: ${formDetails.Frigo}
-                    Lave-linge: ${formDetails.Lave_linge}
                     Balcon: ${formDetails.Balcon}
                     Cave: ${formDetails.Cave}
                     Accès: ${formDetails.Acces}
@@ -910,7 +889,6 @@
                 }).then((response) => {
                     console.log('SUCCESS!', response.status, response.text);
                     showConfirmationMessage();
-                    showPage('page3');
                 }, (err) => {
                     console.error('FAILED...', err);
                     showNotification("Échec de l'envoi du formulaire.", 'error');
@@ -969,11 +947,10 @@
                 }, 3000);
             }
 
-            // Gestion des sous-options pour l'objet sélectionné
             function handleObjetChange() {
                 const objet = document.getElementById('objet').value;
                 const sousOptionsDiv = document.getElementById('sous-options-objet');
-                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                sousOptionsDiv.innerHTML = '';
 
                 if (objet === "Appartement") {
                     sousOptionsDiv.innerHTML = `
@@ -1026,7 +1003,7 @@
             function handlePiecesChange() {
                 const pieces = document.getElementById('pieces').value;
                 const sousOptionsDiv = document.getElementById('sous-options-pieces');
-                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                sousOptionsDiv.innerHTML = '';
 
                 const pieceOptions = {
                     studio: `
@@ -1145,31 +1122,12 @@
 
             function updateCostForSousSol() {
                 const sousSolCheckbox = document.getElementById('sous_sol');
-                const baseCost = 100; // Coût additionnel pour sous-sol
-                const currentPrice = parseFloat(document.getElementById('prixDevis').innerText);
+                const baseCost = 100;
                 if (sousSolCheckbox.checked) {
-                    document.getElementById('prixDevis').innerText = (currentPrice + baseCost).toFixed(2);
+                    document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) + baseCost).toFixed(2);
                 } else {
-                    document.getElementById('prixDevis').innerText = (currentPrice - baseCost).toFixed(2);
+                    document.getElementById('prixDevis').innerText = (parseFloat(document.getElementById('prixDevis').innerText) - baseCost).toFixed(2);
                 }
-            }
-
-            // Bouton WhatsApp pour un contact direct
-            const whatsappButton = document.createElement('a');
-            whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
-            whatsappButton.target = "_blank";
-            whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
-            document.body.appendChild(whatsappButton);
-
-            // Fonction pour afficher les notifications
-            function showNotification(message, type) {
-                const notification = document.getElementById('notification');
-                notification.className = `notification ${type}`;
-                notification.innerText = message;
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
             }
         </script>
     </div>
