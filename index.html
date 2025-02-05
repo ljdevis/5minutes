@@ -7,23 +7,41 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .progress-bar {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .video-background iframe {
             width: 100%;
-            height: 8px;
-            background-color: #e5e7eb;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
         }
-        .progress {
-            height: 8px;
-            background-color: #3b82f6;
-            width: 0%;
-            border-radius: 5px;
-            transition: width 0.4s ease;
+
+        .content-container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.7); /* Ajuster l'opacité ici */
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .hidden {
-            display: none;
-        }
+
         .navigation-button {
             display: inline-block;
             margin: 5px;
@@ -41,88 +59,22 @@
             color: white;
             float: right;
         }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        .video-background {
-            position: fixed;
-            top: -1.7cm;
-            left: -0.01cm;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .video-background iframe {
-            width: 120%;
-            height: 120%;
-            object-fit: cover;
-        }
-        .content-container {
-            position: relative;
-            z-index: 1;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .notification {
-            display: none;
-        }
-        .obligatory-message {
-            color: #D32F2F;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            margin-top: 4px;
-            transition: color 0.3s;
-        }
-        .obligatory-message.valid {
-            color: #28a745;
-        }
-        .obligatory-message i {
-            margin-right: 5px;
-        }
-        .discounted-price {
-            color: green;
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-        .optional-question {
-            color: red;
-        }
     </style>
 </head>
 
-<body class="bg-gray-100 font-sans antialiased">
+<body class="font-sans antialiased">
     <div class="video-background">
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-        <script type="text/javascript">
-            (function () {
-                emailjs.init("es5i8pk88qOLfaaBj");
-            })();
-        </script>
-
-        <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-            <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold text-blue-600 mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
-                <p class="text-gray-700 mb-4 text-base font-bold">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
-                <p class="text-gray-700 mb-6 text-base font-bold">RÉPONDEZ À 23 QUESTIONS ET DÉCOUVREZ VOTRE PRIX INSTANTANÉMENT.</p>
-                <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="showPage('page2')">Démarrer votre devis maintenant</button>
-                <p class="text-green-500 mt-4 font-bold">178 Devis Réalisés la semaine dernière</p>
+        <h1 class="text-2xl font-bold text-blue-600 mb-6 text-center">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
+        <p class="text-gray-700 mb-4 text-base font-bold text-center">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
+        <p class="text-gray-700 mb-6 text-base font-bold text-center">RÉPONDEZ À 23 QUESTIONS ET DÉCOUVREZ VOTRE PRIX INSTANTANÉMENT.</p>
+        <div class="text-center">
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="showPage('page2')">Démarrer votre devis maintenant</button>
+        </div>
+        <p class="text-green-500 mt-4 font-bold text-center">178 Devis Réalisés la semaine dernière</p>
             </div>
         </div>
 
