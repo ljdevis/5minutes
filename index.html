@@ -277,7 +277,7 @@
                         </select>
                         <div id="question10-options" class="mt-2 text-center optional-question">
                             <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="addCleaningService()">Oui</button>
                             <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         </div>
                         <div class="flex justify-between">
@@ -359,7 +359,7 @@
                         </select>
                         <div id="question14-options" class="mt-2 text-center optional-question">
                             <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="addFurnitureService()">Oui</button>
                             <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         </div>
                         <div class="flex justify-between">
@@ -510,9 +510,6 @@
             </div>
         </div>
 
-        <div id="confirmation-message" class="notification hidden"></div>
-        <div id="notification" class="notification hidden"></div>
-
         <script>
             let currentQuestion = 1;
             const totalQuestions = 23;
@@ -573,6 +570,22 @@
                     console.error('FAILED...', err);
                     showNotification("Échec de l'envoi du formulaire.", 'error');
                 });
+            }
+
+            function addCleaningService() {
+                const cleaningServiceSelect = document.getElementById('nettoyage');
+                cleaningServiceSelect.disabled = false; // Activer la sélection de nettoyage
+                const question10Div = document.querySelector(`[data-question="10"]`);
+                question10Div.querySelector('.optional-question').classList.add('hidden'); // Masquer l'option
+                nextQuestion(); // Passer à la question 11
+            }
+
+            function addFurnitureService() {
+                const furnitureServiceSelect = document.getElementById('meubles');
+                furnitureServiceSelect.disabled = false; // Activer la sélection de meubles
+                const question14Div = document.querySelector(`[data-question="14"]`);
+                question14Div.querySelector('.optional-question').classList.add('hidden'); // Masquer l'option
+                nextQuestion(); // Passer à la question 15
             }
 
             function validateName() {
