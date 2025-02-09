@@ -7,6 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        /* Global styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -15,6 +16,7 @@
             font-family: Arial, sans-serif;
         }
 
+        /* Video background styles */
         .video-background {
             position: fixed;
             top: 0;
@@ -32,10 +34,11 @@
             pointer-events: none;
         }
 
+        /* Main content container styles */
         .content-container {
             position: relative;
             z-index: 1;
-            background-color: rgba(255, 255, 255, 0.8); /* Adjust opacity as needed */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             max-width: 800px;
             margin: 2rem auto;
@@ -45,6 +48,7 @@
             max-height: 80vh;
         }
 
+        /* Styles for buttons */
         .navigation-button {
             display: inline-block;
             margin: 5px;
@@ -62,6 +66,7 @@
             color: white;
         }
 
+        /* WhatsApp button styles */
         .whatsapp-button {
             position: fixed;
             bottom: 20px;
@@ -87,6 +92,7 @@
         <iframe src="https://www.youtube.com/embed/u5N-ZsToOmo?autoplay=1&mute=1&loop=1&playlist=u5N-ZsToOmo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
+    <!-- Page 1: Introduction -->
     <div id="page1" class="content-container">
         <h1 class="text-2xl font-bold text-blue-600 mb-6 text-center">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
         <p class="text-gray-700 mb-4 text-base font-bold text-center">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
@@ -97,6 +103,7 @@
         <p class="text-green-500 mt-4 font-bold text-center">178 Devis Réalisés la semaine dernière</p>
     </div>
 
+    <!-- Page 2: Formulaire -->
     <div id="page2" class="content-container hidden">
         <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">Votre Déménagement Commence ici</h1>
         <div class="progress-bar mb-4">
@@ -104,6 +111,7 @@
         </div>
         <form id="devisForm" onsubmit="return false;">
             <!-- Questions 1 à 23 -->
+            <!-- Structure de chaque question -->
             <div class="form-group mb-4" data-question="1">
                 <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
                 <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Alan Favre" required>
@@ -428,6 +436,7 @@
         <div class="confirmation-message text-green-500 hidden" id="confirmation-message">Confirmation de l'envoi</div>
     </div>
 
+    <!-- Page 3: Résultat -->
     <div id="page3" class="content-container hidden">
         <div class="p-6 text-center">
             <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="discountedPrice"></span> CHF</h1>
@@ -441,6 +450,7 @@
         </div>
     </div>
 
+    <!-- WhatsApp Button -->
     <button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>
 
     <script>
@@ -592,176 +602,177 @@
             };
             cost += litAdulteCosts[lit_adulte] || 0;
 
-            // Coût basé sur le nombre de lits enfants
-            const litEnfantCosts = {
-                '0': 0,
-                '1': 0,
-                '2': 0,
-                '3': 50,
-                '4': 75,
-                '5': 100,
-                '6': 125,
-                '7_plus': 150
-            };
-            cost += litEnfantCosts[lit_enfant] || 0;
+// Coût basé sur le nombre de lits enfants
+const litEnfantCosts = {
+    '0': 0,
+    '1': 0,
+    '2': 0,
+    '3': 50,
+    '4': 75,
+    '5': 100,
+    '6': 125,
+    '7_plus': 150
+};
+cost += litEnfantCosts[lit_enfant] || 0;
 
-            // Coût basé sur le nombre de meubles à démonter
-            const meubleCosts = {
-                '0': 0,
-                '1': 150,
-                '2': 300,
-                '3': 450,
-                '4': 600,
-                '5': 750,
-                '6': 900,
-                '7_plus': 1050
-            };
-            cost += meubleCosts[meubles] || 0;
+// Coût basé sur le nombre de meubles à démonter
+const meubleCosts = {
+    '0': 0,
+    '1': 150,
+    '2': 300,
+    '3': 450,
+    '4': 600,
+    '5': 750,
+    '6': 900,
+    '7_plus': 1050
+};
+cost += meubleCosts[meubles] || 0;
 
-            // Coût basé sur le nombre de canapés
-            const canapeCosts = {
-                '0': -50,
-                '1': 0,
-                '2': 0,
-                '3': 50,
-                '4': 75,
-                '5': 100,
-                '6': 125,
-                '7_plus': 150
-            };
-            cost += canapeCosts[canape] || 0;
+// Coût basé sur le nombre de canapés
+const canapeCosts = {
+    '0': -50,
+    '1': 0,
+    '2': 0,
+    '3': 50,
+    '4': 75,
+    '5': 100,
+    '6': 125,
+    '7_plus': 150
+};
+cost += canapeCosts[canape] || 0;
 
-            // Coût basé sur le nombre d'électroménagers
-            const electromenagerCosts = {
-                '0': 0,
-                '1': 0,
-                '2': 50,
-                '3': 100,
-                '4': 150,
-                '5': 200,
-                '6': 250,
-                '7_plus': 300
-            };
-            cost += electromenagerCosts[electromenager] || 0;
+// Coût basé sur le nombre d'électroménagers
+const electromenagerCosts = {
+    '0': 0,
+    '1': 0,
+    '2': 50,
+    '3': 100,
+    '4': 150,
+    '5': 200,
+    '6': 250,
+    '7_plus': 300
+};
+cost += electromenagerCosts[electromenager] || 0;
 
-            // Ajustements supplémentaires
-            if (balcon === 'balcon') cost += cost * 0.10;
-            if (balcon === 'terrasse') cost += cost * 0.15;
-            if (cave === 'oui') cost += cost * 0.10;
-            if (acces === 'difficile') cost += cost * 0.20;
-            if (ascenseur === 'non') cost += cost * 0.10;
-            else if (ascenseur === 'une_adresse') cost += cost * 0.05;
-            if (monte_charge === 'oui') cost += 700;
+// Ajustements supplémentaires basés sur diverses conditions
+if (balcon === 'balcon') cost += cost * 0.10;
+if (balcon === 'terrasse') cost += cost * 0.15;
+if (cave === 'oui') cost += cost * 0.10;
+if (acces === 'difficile') cost += cost * 0.20;
+if (ascenseur === 'non') cost += cost * 0.10;
+else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+if (monte_charge === 'oui') cost += 700;
 
-            document.getElementById('discountedPrice').innerText = cost.toFixed(2);
-            return cost;
-        }
+// Mise à jour du coût estimé affiché
+document.getElementById('discountedPrice').innerText = cost.toFixed(2);
+return cost;
+}
 
-        function saveForm(cost) {
-            const formDetails = {
-                Nom_prenom: document.getElementById('nom_prenom').value,
-                Email: document.getElementById('email').value,
-                Telephone: document.getElementById('telephone').value,
-                Adresse_actuelle: document.getElementById('adresse_actuelle').value,
-                Adresse_future: document.getElementById('adresse_future').value,
-                Statut: document.getElementById('statut').value,
-                Formule: document.getElementById('formule').value,
-                Objet: document.getElementById('objet').value,
-                Pieces: document.getElementById('pieces').value,
-                Nettoyage: document.getElementById('nettoyage').value,
-                Distance: document.getElementById('distance').value,
-                Lit_adulte: document.getElementById('lit_adulte').value,
-                Lit_enfant: document.getElementById('lit_enfant').value,
-                Meubles: document.getElementById('meubles').value,
-                Canape: document.getElementById('canape').value,
-                Electromenager: document.getElementById('electromenager').value,
-                Balcon: document.getElementById('balcon').value,
-                Cave: document.getElementById('cave').value,
-                Acces: document.getElementById('acces').value,
-                Ascenseur: document.getElementById('ascenseur').value,
-                Monte_charge: document.getElementById('monte_charge').value,
-                Cartons: document.getElementById('cartons').value,
-                Commentaires: document.getElementById('commentaires').value,
-                Estimated_cost: cost
-            };
+function saveForm(cost) {
+const formDetails = {
+    Nom_prenom: document.getElementById('nom_prenom').value,
+    Email: document.getElementById('email').value,
+    Telephone: document.getElementById('telephone').value,
+    Adresse_actuelle: document.getElementById('adresse_actuelle').value,
+    Adresse_future: document.getElementById('adresse_future').value,
+    Statut: document.getElementById('statut').value,
+    Formule: document.getElementById('formule').value,
+    Objet: document.getElementById('objet').value,
+    Pieces: document.getElementById('pieces').value,
+    Nettoyage: document.getElementById('nettoyage').value,
+    Distance: document.getElementById('distance').value,
+    Lit_adulte: document.getElementById('lit_adulte').value,
+    Lit_enfant: document.getElementById('lit_enfant').value,
+    Meubles: document.getElementById('meubles').value,
+    Canape: document.getElementById('canape').value,
+    Electromenager: document.getElementById('electromenager').value,
+    Balcon: document.getElementById('balcon').value,
+    Cave: document.getElementById('cave').value,
+    Acces: document.getElementById('acces').value,
+    Ascenseur: document.getElementById('ascenseur').value,
+    Monte_charge: document.getElementById('monte_charge').value,
+    Cartons: document.getElementById('cartons').value,
+    Commentaires: document.getElementById('commentaires').value,
+    Estimated_cost: cost
+};
 
-            const message = `
-                Madame, Monsieur, 
+const message = `
+    Madame, Monsieur, 
 
-                Nous vous remercions d'avoir utilisé notre application de devis instantané chez L&J Déménagement. Voici les détails de votre demande ainsi que le coût estimé :
-                
-                Nom et Prénom: ${formDetails.Nom_prenom}
-                Email: ${formDetails.Email}
-                Téléphone: ${formDetails.Telephone}
-                Adresse Actuelle: ${formDetails.Adresse_actuelle}
-                Adresse Future: ${formDetails.Adresse_future}
-                Statut: ${formDetails.Statut}
-                Formule: ${formDetails.Formule}
-                Objet: ${formDetails.Objet}
-                Pièces: ${formDetails.Pieces}
-                Nettoyage: ${formDetails.Nettoyage}
-                Distance: ${formDetails.Distance}
-                Lits Adultes: ${formDetails.Lit_adulte}
-                Lits Enfants: ${formDetails.Lit_enfant}
-                Meubles à démonter: ${formDetails.Meubles}
-                Canapés: ${formDetails.Canape}
-                Électroménager: ${formDetails.Electromenager}
-                Balcon/Terrasse: ${formDetails.Balcon}
-                Cave: ${formDetails.Cave}
-                Conditions d'Accès: ${formDetails.Acces}
-                Ascenseur: ${formDetails.Ascenseur}
-                Monte-charge: ${formDetails.Monte_charge}
-                Cartons: ${formDetails.Cartons}
-                Commentaires: ${formDetails.Commentaires}
-                Coût Estimé: ${formDetails.Estimated_cost} CHF
+    Nous vous remercions d'avoir utilisé notre application de devis instantané chez L&J Déménagement. Voici les détails de votre demande ainsi que le coût estimé :
+    
+    Nom et Prénom: ${formDetails.Nom_prenom}
+    Email: ${formDetails.Email}
+    Téléphone: ${formDetails.Telephone}
+    Adresse Actuelle: ${formDetails.Adresse_actuelle}
+    Adresse Future: ${formDetails.Adresse_future}
+    Statut: ${formDetails.Statut}
+    Formule: ${formDetails.Formule}
+    Objet: ${formDetails.Objet}
+    Pièces: ${formDetails.Pieces}
+    Nettoyage: ${formDetails.Nettoyage}
+    Distance: ${formDetails.Distance}
+    Lits Adultes: ${formDetails.Lit_adulte}
+    Lits Enfants: ${formDetails.Lit_enfant}
+    Meubles à démonter: ${formDetails.Meubles}
+    Canapés: ${formDetails.Canape}
+    Électroménager: ${formDetails.Electromenager}
+    Balcon/Terrasse: ${formDetails.Balcon}
+    Cave: ${formDetails.Cave}
+    Conditions d'Accès: ${formDetails.Acces}
+    Ascenseur: ${formDetails.Ascenseur}
+    Monte-charge: ${formDetails.Monte_charge}
+    Cartons: ${formDetails.Cartons}
+    Commentaires: ${formDetails.Commentaires}
+    Coût Estimé: ${formDetails.Estimated_cost} CHF
 
-                Pour confirmer votre déménagement avec nous, veuillez répondre à cet e-mail ou nous contacter au +41 78 749 35 94.
+    Pour confirmer votre déménagement avec nous, veuillez répondre à cet e-mail ou nous contacter au +41 78 749 35 94.
 
-                Cordialement,
+    Cordialement,
 
-                L'équipe L&J Déménagement
-            `;
+    L'équipe L&J Déménagement
+`;
 
-            // Simulation de l'envoi du formulaire avec EmailJS
-            emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                to_email: formDetails.Email,
-                from_name: "L&J Déménagement",
-                reply_to: formDetails.Email,
-                subject: "Demande de devis de L&J Déménagement",
-                message: message
-            }).then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-                showConfirmationMessage();
-            }, (err) => {
-                console.error('FAILED...', err);
-                alert("Échec de l'envoi du formulaire.");
-            });
-        }
+// Simulation de l'envoi du formulaire avec EmailJS
+emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+    to_email: formDetails.Email,
+    from_name: "L&J Déménagement",
+    reply_to: formDetails.Email,
+    subject: "Demande de devis de L&J Déménagement",
+    message: message
+}).then((response) => {
+    console.log('SUCCESS!', response.status, response.text);
+    showConfirmationMessage();
+}, (err) => {
+    console.error('FAILED...', err);
+    alert("Échec de l'envoi du formulaire.");
+});
+}
 
-        function checkAdditionalCost() {
-            const additionalCostElements = ['plus_310', '110_plus', 'difficile', 'balcon', 'terrasse'];
-            const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
-            const hasAdditionalCost = selectedOptions.some(option => additionalCostElements.includes(option));
+function checkAdditionalCost() {
+const additionalCostElements = ['plus_310', '110_plus', 'difficile', 'balcon', 'terrasse'];
+const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
+const hasAdditionalCost = selectedOptions.some(option => additionalCostElements.includes(option));
 
-            if (hasAdditionalCost) {
-                document.getElementById('additional-cost-message').classList.remove('hidden');
-            } else {
-                document.getElementById('additional-cost-message').classList.add('hidden');
-            }
-        }
+if (hasAdditionalCost) {
+    document.getElementById('additional-cost-message').classList.remove('hidden');
+} else {
+    document.getElementById('additional-cost-message').classList.add('hidden');
+}
+}
 
-        function showConfirmationMessage() {
-            const confirmationMessage = document.getElementById('confirmation-message');
-            confirmationMessage.style.display = 'block';
-            confirmationMessage.innerText = "Confirmation de l'envoi";
-            setTimeout(() => {
-                confirmationMessage.style.display = 'none';
-            }, 3000);
-        }
+function showConfirmationMessage() {
+const confirmationMessage = document.getElementById('confirmation-message');
+confirmationMessage.style.display = 'block';
+confirmationMessage.innerText = "Confirmation de l'envoi";
+setTimeout(() => {
+    confirmationMessage.style.display = 'none';
+}, 3000);
+}
 
-        function markContacted() {
-            alert('Votre demande a été envoyée avec succès !');
-        }
-    </script>
+function markContacted() {
+alert('Votre demande a été envoyée avec succès !');
+}
+</script>
 </body>
 </html>
