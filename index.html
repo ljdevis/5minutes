@@ -497,8 +497,10 @@
 
         <div id="page3" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden hidden">
             <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="discountedPrice"></span> CHF</h1>
-                <p class="text-lg mb-2 text-green-600"><span id="originalPrice"></span> CHF</p>
+                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="strikethrough" id="originalCost"></span> CHF</h1>
+                <p class="strikethrough text-lg mb-2 text-red-600"><span id="originalPrice"></span> CHF</p>
+                <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
+                <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
                 <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
                 <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
                 <div class="mb-4">
@@ -509,6 +511,9 @@
                 <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
             </div>
         </div>
+
+        <div id="confirmation-message" class="notification hidden"></div>
+        <div id="notification" class="notification hidden"></div>
 
         <script>
             let currentQuestion = 1;
@@ -581,10 +586,82 @@
                 }
             }
 
-            function calculateCostAndShow() {
+            function validateName() {
+                const nameInput = document.getElementById('nom_prenom');
+                const obligatoryMessage = document.getElementById('name-obligatory');
+
+                if (nameInput.value.trim().length > 0) {
+                    obligatoryMessage.classList.add('valid');
+                    obligatoryMessage.style.color = '#28a745'; // Vert
+                } else {
+                    obligatoryMessage.classList.remove('valid');
+                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
+                }
+            }
+
+            function validateEmail() {
+                const emailInput = document.getElementById('email');
+                const nextButton = document.getElementById('email-next-button');
+                const obligatoryMessage = document.getElementById('email-obligatory');
+
+                if (emailInput.value.includes('@')) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                    obligatoryMessage.style.color = '#28a745'; // Vert
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
+                }
+            }
+
+            function validateTelephone() {
+                const phoneInput = document.getElementById('telephone');
+                const nextButton = document.getElementById('telephone-next-button');
+                const obligatoryMessage = document.getElementById('telephone-obligatory');
+
+                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                    obligatoryMessage.style.color = '#28a745'; // Vert
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
+                }
+            }
+
+            function validateAddress(inputId, messageId) {
+                const addressInput = document.getElementById(inputId);
+                const obligatoryMessage = document.getElementById(messageId);
+
+                if (addressInput.value.trim().length > 0) {
+                    obligatoryMessage.classList.add('valid');
+                    obligatoryMessage.style.color = '#28a745'; // Vert
+                } else {
+                    obligatoryMessage.classList.remove('valid');
+                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
+                }
+            }
+
+            function validateForm() {
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+                const nom_prenom = document.getElementById('nom_prenom').value;
+                const adresse_actuelle = document.getElementById('adresse_actuelle').value;
+                const adresse_future = document.getElementById('adresse_future').value;
+
+                if (!nom_prenom || !email || !telephone || !adresse_actuelle || !adresse_future) {
+                    document.getElementById('error-message').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('error-message').style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+
                 const cost = calculateCost();
                 saveForm(cost);
-                showPage('page3'); // Afficher la page 3 après le calcul
+                checkAdditionalCost();
             }
 
             function calculateCost() {
@@ -624,17 +701,7 @@
                     neuf_pieces: 3050,
                     dix_pieces: 3400
                 };
-
                 cost += piecesCost[pieces] || 0;
-
-                // Coût pour les superficies
-                const superficieElement = document.querySelector(`#sous-options-pieces select`);
-                if (superficieElement) {
-                    const selectedOption = superficieElement.options[superficieElement.selectedIndex];
-                    const baseCost = piecesCost[pieces] || 0;
-                    const additionalCostPercentage = parseFloat(selectedOption.dataset.cost) / 100;
-                    cost += baseCost * additionalCostPercentage;
-                }
 
                 // Coût pour le nettoyage
                 const nettoyageCosts = {
@@ -753,16 +820,8 @@
 
                 const originalCost = cost;  // Conserver le coût original
 
-                // Vérifier si c'est le mois de janvier pour appliquer la réduction
-                const today = new Date();
-                let discountedCost = cost;
-                if (today.getMonth() === 0) { // Janvier
-                    discountedCost *= 0.90; // Applique une réduction de 10%
-                    document.getElementById('discount-message').classList.remove('hidden'); // Affiche le message de réduction
-                }
-
                 // Arrondir le cost au dixième inférieur
-                const roundedCost = Math.floor(discountedCost * 10) / 10;
+                const roundedCost = Math.floor(cost * 10) / 10;
 
                 // Mettre à jour les prix affichés
                 document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
