@@ -256,7 +256,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="10">
                         <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
-                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
+                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">Pas de nettoyage</option>
                             <option value="30_49">30 m² à 49 m²</option>
@@ -275,11 +275,6 @@
                             <option value="290_309">290 m² à 309 m²</option>
                             <option value="plus_210">Plus de 210m²*</option>
                         </select>
-                        <div id="question10-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
@@ -344,7 +339,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="14">
                         <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
-                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
+                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
@@ -357,11 +352,6 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
-                        <div id="question14-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
                             <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
@@ -497,12 +487,8 @@
 
         <div id="page3" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden hidden">
             <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="strikethrough" id="originalCost"></span> CHF</h1>
-                <p class="strikethrough text-lg mb-2 text-red-600"><span id="originalPrice"></span> CHF</p>
-                <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
-                <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
-                <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
-                <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
+                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span id="finalCost" class="discounted-price"></span> CHF</h1>
+                <p class="text-gray-700 mb-6">Réservez maintenant votre déménagement à ce tarif exceptionnel.</p>
                 <div class="mb-4">
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/contact'">Page de Contact</button>
@@ -818,17 +804,12 @@
                 else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
                 if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
 
-                const originalCost = cost;  // Conserver le coût original
-
                 // Arrondir le cost au dixième inférieur
                 const roundedCost = Math.floor(cost * 10) / 10;
 
                 // Mettre à jour les prix affichés
-                document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
-                document.getElementById('discountedPrice').innerText = roundedCost.toFixed(2);
+                document.getElementById('finalCost').innerText = roundedCost.toFixed(2);
                 
-                // Afficher le prix normal dans l'élément prixDevis
-                document.getElementById('originalCost').innerText = originalCost.toFixed(2);
                 return cost;
             }
 
