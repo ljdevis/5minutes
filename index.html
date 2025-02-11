@@ -53,6 +53,8 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
+            transform: scale(2); /* Zoom de 2x sur la vidéo */
+            transform-origin: center; /* Centrer le zoom */
         }
         .video-background iframe {
             width: 100%;
@@ -62,7 +64,7 @@
         .content-container {
             position: relative;
             z-index: 1;
-            background-color: rgba(255, 255, 255, 0.01);
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
         }
@@ -80,7 +82,7 @@
         .discounted-price {
             color: green;
             font-weight: bold;
-            font-size: 1.5rem; /* Agrandir le texte du prix final */
+            font-size: 2rem; /* Agrandir le texte du prix final */
         }
         .optional-question {
             color: #FFA500; /* Orange */
@@ -1100,6 +1102,20 @@
 
                 sousOptionsDiv.innerHTML = pieceOptions[pieces] || '';
                 sousOptionsDiv.classList.remove('hidden');
+            }
+
+            function addCleaningService() {
+                // Supprime les questions optionnelles pour le nettoyage
+                document.querySelector(`[data-question="10"]`).classList.add('hidden');
+                // Reste sur la question 10
+                updateProgressBar(); // Mettre à jour la barre de progression
+            }
+
+            function addFurnitureService() {
+                // Supprime les questions optionnelles pour les meubles
+                document.querySelector(`[data-question="14"]`).classList.add('hidden');
+                // Reste sur la question 14
+                updateProgressBar(); // Mettre à jour la barre de progression
             }
         </script>
     </div>
