@@ -240,7 +240,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="10">
                         <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
-                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required disabled>
+                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">Pas de nettoyage</option>
                             <option value="30_49">30 m² à 49 m²</option>
@@ -257,14 +257,16 @@
                             <option value="250_269">250 m² à 269 m²</option>
                             <option value="270_289">270 m² à 289 m²</option>
                             <option value="290_309">290 m² à 309 m²</option>
-                            <option value="plus_210">Plus de 210m²</option>
+                            <option value="plus_210">Plus de 210m²*</option>
                         </select>
-                        <p class="optional-question text-center" style="color: red;">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                        <button type="button" class="navigation-button" id="add-cleaning-yes" onclick="addCleaningService()">Oui</button>
-                        <button type="button" class="navigation-button" id="add-cleaning-no" onclick="nextQuestion()">Non</button>
+                        <div id="question10-options" class="mt-2 text-center optional-question">
+                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
+                        </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="cleaning-next-button" disabled onclick="nextQuestion()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="11">
@@ -326,7 +328,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="14">
                         <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
-                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required disabled>
+                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
@@ -339,12 +341,14 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
-                        <p class="optional-question text-center" style="color: red;">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                        <button type="button" class="navigation-button" id="add-furniture-yes" onclick="addFurnitureService()">Oui</button>
-                        <button type="button" class="navigation-button" id="add-furniture-no" onclick="nextQuestion()">Non</button>
+                        <div id="question14-options" class="mt-2 text-center optional-question">
+                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
+                        </div>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="furniture-next-button" disabled onclick="nextQuestion()">Suivant</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="15">
