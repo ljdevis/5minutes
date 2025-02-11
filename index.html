@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .progress {
             height: 8px;
             background-color: #3b82f6;
@@ -21,13 +23,16 @@
             border-radius: 5px;
             transition: width 0.4s ease;
         }
+
         .hidden {
             display: none;
         }
+
         .disabled {
             pointer-events: none;
             opacity: 0.5;
         }
+
         .navigation-button {
             display: inline-block;
             margin: 5px;
@@ -36,15 +41,18 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .next-button {
             background-color: #3b82f6;
             color: white;
         }
+
         .back-button {
             background-color: #a0aec0;
             color: white;
             float: right;
         }
+
         .video-background {
             position: fixed;
             top: 0;
@@ -56,11 +64,13 @@
             transform: scale(2); /* Zoom de 2x sur la vidéo */
             transform-origin: center; /* Centrer le zoom */
         }
+
         .video-background iframe {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .content-container {
             position: relative;
             z-index: 1;
@@ -68,6 +78,7 @@
             padding: 20px;
             border-radius: 10px;
         }
+
         .obligatory-message {
             color: #D32F2F; /* Rouge vif */
             font-size: 0.85rem;
@@ -76,14 +87,17 @@
             margin-top: 4px;
             transition: color 0.3s;
         }
+
         .obligatory-message.valid {
             color: #28a745; /* Vert */
         }
+
         .discounted-price {
             color: green;
             font-weight: bold;
             font-size: 2rem; /* Agrandir le texte du prix final */
         }
+
         .optional-question {
             color: #FFA500; /* Orange */
         }
@@ -253,6 +267,7 @@
                         <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" id="cleaning-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="11">
@@ -332,6 +347,7 @@
                         <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" id="furniture-next-button" disabled onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="15">
@@ -536,102 +552,44 @@
                             Nom et Prénom: ${nom_prenom}
                             Email: ${email}
                             Téléphone: ${telephone}
+                            Adresse Actuelle: ${document.getElementById('adresse_actuelle').value}
+                            Adresse Future: ${document.getElementById('adresse_future').value}
+                            Statut: ${document.getElementById('statut').value}
+                            Formule: ${document.getElementById('formule').value}
+                            Nombre de Pièces: ${document.getElementById('pieces').value}
+                            Service de Nettoyage: ${document.getElementById('nettoyage').value}
+                            Distance: ${document.getElementById('distance').value}
+                            Lits Adultes: ${document.getElementById('lit_adulte').value}
+                            Lits Enfants: ${document.getElementById('lit_enfant').value}
+                            Meubles à Démonter: ${document.getElementById('meubles').value}
+                            Canapés: ${document.getElementById('canape').value}
+                            Réfrigérateurs: ${document.getElementById('frigo').value}
+                            Balcon: ${document.getElementById('balcon').value}
+                            Cave: ${document.getElementById('cave').value}
+                            Accès: ${document.getElementById('acces').value}
+                            Ascenseur: ${document.getElementById('ascenseur').value}
+                            Monte Charge: ${document.getElementById('monte_charge').value}
+                            Cartons: ${document.getElementById('cartons').value}
+                            Commentaires: ${document.getElementById('commentaires').value}
                         `
                     }).then((response) => {
                         console.log('SUCCESS!', response.status, response.text);
-                        nextQuestion(); // Passer à la question suivante
+                        showConfirmationMessage();
+                        showPage('page3');
+                        calculateCost(); // Calculer le coût après l'envoi
                     }, (err) => {
                         console.error('FAILED...', err);
-                        alert('Échec de l\'envoi de l\'email. Veuillez réessayer.');
+                        showNotification("Échec de l'envoi du formulaire.", 'error');
                     });
                 } else {
                     alert('Veuillez remplir tous les champs requis avant de continuer.');
                 }
             }
 
-            function validateName() {
-                const nameInput = document.getElementById('nom_prenom');
-                const obligatoryMessage = document.getElementById('name-obligatory');
-
-                if (nameInput.value.trim().length > 0) {
-                    obligatoryMessage.classList.add('valid');
-                    obligatoryMessage.style.color = '#28a745'; // Vert
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
-                }
-            }
-
-            function validateEmail() {
-                const emailInput = document.getElementById('email');
-                const nextButton = document.getElementById('email-next-button');
-                const obligatoryMessage = document.getElementById('email-obligatory');
-
-                if (emailInput.value.includes('@')) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                    obligatoryMessage.style.color = '#28a745'; // Vert
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
-                }
-            }
-
-            function validateTelephone() {
-                const phoneInput = document.getElementById('telephone');
-                const nextButton = document.getElementById('telephone-next-button');
-                const obligatoryMessage = document.getElementById('telephone-obligatory');
-
-                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                    obligatoryMessage.style.color = '#28a745'; // Vert
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
-                }
-            }
-
-            function validateAddress(inputId, messageId) {
-                const addressInput = document.getElementById(inputId);
-                const obligatoryMessage = document.getElementById(messageId);
-
-                if (addressInput.value.trim().length > 0) {
-                    obligatoryMessage.classList.add('valid');
-                    obligatoryMessage.style.color = '#28a745'; // Vert
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                    obligatoryMessage.style.color = '#D32F2F'; // Rouge
-                }
-            }
-
-            function validateForm() {
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-                const nom_prenom = document.getElementById('nom_prenom').value;
-                const adresse_actuelle = document.getElementById('adresse_actuelle').value;
-                const adresse_future = document.getElementById('adresse_future').value;
-
-                if (!nom_prenom || !email || !telephone || !adresse_actuelle || !adresse_future) {
-                    document.getElementById('error-message').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('error-message').style.display = 'none';
-                    }, 3000);
-                    return;
-                }
-
-                const cost = calculateCost();
-                saveForm(cost);
-                checkAdditionalCost();
-            }
-
             function calculateCost() {
                 let cost = 0;
                 const formule = document.getElementById('formule').value;
                 const pieces = document.getElementById('pieces').value;
-                const cartons = document.getElementById('cartons').value;
                 const nettoyage = document.getElementById('nettoyage').value;
                 const distance = document.getElementById('distance').value;
                 const lit_adulte = document.getElementById('lit_adulte').value;
@@ -644,6 +602,7 @@
                 const acces = document.getElementById('acces').value;
                 const ascenseur = document.getElementById('ascenseur').value;
                 const monte_charge = document.getElementById('monte_charge').value;
+                const cartons = document.getElementById('cartons').value;
 
                 // Coût par formule
                 if (formule === 'economique') cost += 0;
@@ -790,6 +749,26 @@
                 return cost;
             }
 
+            function validateForm() {
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+                const nom_prenom = document.getElementById('nom_prenom').value;
+                const adresse_actuelle = document.getElementById('adresse_actuelle').value;
+                const adresse_future = document.getElementById('adresse_future').value;
+
+                if (!nom_prenom || !email || !telephone || !adresse_actuelle || !adresse_future) {
+                    document.getElementById('error-message').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('error-message').style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+
+                const cost = calculateCost();
+                saveForm(cost);
+                checkAdditionalCost();
+            }
+
             function saveForm(cost) {
                 const formDetails = {
                     Nom_prenom: document.getElementById('nom_prenom').value,
@@ -799,14 +778,11 @@
                     Adresse_future: document.getElementById('adresse_future').value,
                     Statut: document.getElementById('statut').value,
                     Formule: document.getElementById('formule').value,
-                    Objet: document.getElementById('objet').value,
-                    Etages: document.getElementById('sous-options-objet').querySelector('select') ? document.getElementById('sous-options-objet').querySelector('select').value : '',
-                    Pieces: document.getElementById('pieces').value,
-                    Superficie: document.getElementById('sous-options-pieces').querySelector('select') ? document.getElementById('sous-options-pieces').querySelector('select').value : '',
-                    Nettoyage: document.getElementById('nettoyage').value,
+                    Nombre_de_pieces: document.getElementById('pieces').value,
+                    Service_de_nettoyage: document.getElementById('nettoyage').value,
                     Distance: document.getElementById('distance').value,
-                    Lit_adulte: document.getElementById('lit_adulte').value,
-                    Lit_enfant: document.getElementById('lit_enfant').value,
+                    Lits_adultes: document.getElementById('lit_adulte').value,
+                    Lits_enfants: document.getElementById('lit_enfant').value,
                     Meubles: document.getElementById('meubles').value,
                     Canape: document.getElementById('canape').value,
                     Frigo: document.getElementById('frigo').value,
@@ -832,15 +808,14 @@
                     Adresse Future: ${formDetails.Adresse_future}
                     Statut: ${formDetails.Statut}
                     Formule: ${formDetails.Formule}
-                    Objet: ${formDetails.Objet} - Nombre d'étages: ${formDetails.Etages}
-                    Pièces: ${formDetails.Pieces} - Superficie: ${formDetails.Superficie}
-                    Nettoyage: ${formDetails.Nettoyage}
+                    Nombre de Pièces: ${formDetails.Nombre_de_pieces}
+                    Service de Nettoyage: ${formDetails.Service_de_nettoyage}
                     Distance: ${formDetails.Distance}
-                    Lits Adultes: ${formDetails.Lit_adulte}
-                    Lits Enfants: ${formDetails.Lit_enfant}
-                    Meubles: ${formDetails.Meubles}
+                    Lits Adultes: ${formDetails.Lits_adultes}
+                    Lits Enfants: ${formDetails.Lits_enfants}
+                    Meubles à Démonter: ${formDetails.Meubles}
                     Canapé: ${formDetails.Canape}
-                    Frigo: ${formDetails.Frigo}
+                    Réfrigérateurs: ${formDetails.Frigo}
                     Balcon: ${formDetails.Balcon}
                     Cave: ${formDetails.Cave}
                     Accès: ${formDetails.Acces}
@@ -888,22 +863,6 @@
                 });
             }
 
-            function checkAdditionalCost() {
-                const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
-                    'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
-                    'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
-                    'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
-
-                const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
-                const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
-
-                if (hasAsteriskOption) {
-                    document.getElementById('additional-cost-message').classList.remove('hidden');
-                } else {
-                    document.getElementById('additional-cost-message').classList.add('hidden');
-                }
-            }
-
             function showConfirmationMessage() {
                 const confirmationMessage = document.getElementById('confirmation-message');
                 confirmationMessage.style.display = 'block';
@@ -914,14 +873,14 @@
             }
 
             function addCleaningService() {
-                // Supprime les questions optionnelles pour le nettoyage
+                // Supprime la question optionnelle pour le nettoyage
                 document.querySelector(`[data-question="10"]`).classList.add('hidden');
                 // Reste sur la question 10
                 updateProgressBar(); // Mettre à jour la barre de progression
             }
 
             function addFurnitureService() {
-                // Supprime les questions optionnelles pour les meubles
+                // Supprime la question optionnelle pour les meubles
                 document.querySelector(`[data-question="14"]`).classList.add('hidden');
                 // Reste sur la question 14
                 updateProgressBar(); // Mettre à jour la barre de progression
@@ -1100,7 +1059,77 @@
                 sousOptionsDiv.innerHTML = pieceOptions[pieces] || '';
                 sousOptionsDiv.classList.remove('hidden');
             }
+
+            function validateName() {
+                const name = document.getElementById('nom_prenom').value;
+                const messageElement = document.getElementById('name-obligatory');
+                if (name) {
+                    messageElement.classList.add('valid');
+                } else {
+                    messageElement.classList.remove('valid');
+                }
+            }
+
+            function validateEmail() {
+                const email = document.getElementById('email').value;
+                const messageElement = document.getElementById('email-obligatory');
+                if (email) {
+                    messageElement.classList.add('valid');
+                } else {
+                    messageElement.classList.remove('valid');
+                }
+            }
+
+            function validateTelephone() {
+                const telephone = document.getElementById('telephone').value;
+                const messageElement = document.getElementById('telephone-obligatory');
+                if (telephone) {
+                    messageElement.classList.add('valid');
+                } else {
+                    messageElement.classList.remove('valid');
+                }
+            }
+
+            function validateAddress(id, messageId) {
+                const address = document.getElementById(id).value;
+                const messageElement = document.getElementById(messageId);
+                if (address) {
+                    messageElement.classList.add('valid');
+                } else {
+                    messageElement.classList.remove('valid');
+                }
+            }
+
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.innerText = message;
+                notification.classList.remove('hidden');
+                notification.classList.add(type === 'error' ? 'text-red-500' : 'text-green-500');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 3000);
+            }
+
+            function checkAdditionalCost() {
+                const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
+                    'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
+                    'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
+                    'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
+
+                const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
+                const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
+
+                if (hasAsteriskOption) {
+                    document.getElementById('additional-cost-message').classList.remove('hidden');
+                } else {
+                    document.getElementById('additional-cost-message').classList.add('hidden');
+                }
+            }
+
+            // Initialisation de la page
+            showPage('page1');
         </script>
     </div>
 </body>
+
 </html>
