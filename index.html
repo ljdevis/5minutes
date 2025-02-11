@@ -45,19 +45,6 @@
             color: white;
             float: right;
         }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
         .video-background {
             position: fixed;
             top: 0;
@@ -79,9 +66,6 @@
             padding: 20px;
             border-radius: 10px;
         }
-        .notification {
-            display: none;
-        }
         .obligatory-message {
             color: #D32F2F; /* Rouge vif */
             font-size: 0.85rem;
@@ -93,23 +77,10 @@
         .obligatory-message.valid {
             color: #28a745; /* Vert */
         }
-        .obligatory-message i {
-            margin-right: 5px;
-        }
-        .strikethrough {
-            text-decoration: line-through;
-            color: red; /* Changer en rouge */
-        }
         .discounted-price {
             color: green;
             font-weight: bold;
-            font-size: 1.25rem; /* Agrandir le texte du prix final */
-        }
-        .promotion-message {
-            color: green;
-            font-size: 1.0rem; /* Agrandir le texte de promotion */
-            font-weight: bold; /* En gras */
-            margin-top: 10px;
+            font-size: 1.5rem; /* Agrandir le texte du prix final */
         }
         .optional-question {
             color: #FFA500; /* Orange */
@@ -275,9 +246,11 @@
                             <option value="290_309">290 m² à 309 m²</option>
                             <option value="plus_210">Plus de 210m²</option>
                         </select>
+                        <p class="optional-question">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                        <button type="button" class="navigation-button" onclick="addCleaningService()">Oui</button>
+                        <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="11">
@@ -352,9 +325,11 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
+                        <p class="optional-question">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                        <button type="button" class="navigation-button" onclick="addFurnitureService()">Oui</button>
+                        <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="15">
@@ -671,7 +646,7 @@
                 // Coût par formule
                 if (formule === 'economique') cost += 0;
                 else if (formule === 'premium') cost += 100; // Coût supplémentaire pour premium
-                else if (formule === 'prestige') cost += cost * 1; // Coût supplémentaire pour prestige
+                else if (formule === 'prestige') cost += 200; // Coût supplémentaire pour prestige
 
                 // Coûts en fonction du nombre de pièces
                 const piecesCost = {
@@ -807,7 +782,7 @@
                 // Arrondir le coût au dixième inférieur
                 const roundedCost = Math.floor(cost * 10) / 10;
 
-                // Mettre à jour le prix affiché
+                // Mettre à jour les prix affichés
                 document.getElementById('finalCost').innerText = roundedCost.toFixed(2);
                 
                 return cost;
