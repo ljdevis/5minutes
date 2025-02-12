@@ -88,7 +88,7 @@
             margin-top: 10px;
         }
         .optional-question {
-            color: #FFA500; /* Orange */
+            color: red; /* Rouge */
             text-align: center; /* Centré */
             margin-top: 10px;
         }
@@ -253,7 +253,7 @@
                             <option value="290_309">290 m² à 309 m²</option>
                             <option value="plus_210">Plus de 210m²</option>
                         </select>
-                        <p class="optional-question text-center" style="color: red;">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                        <p class="optional-question text-center">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
                         <button type="button" class="navigation-button yes-button" id="add-cleaning-yes" onclick="addCleaningService()">Oui</button>
                         <button type="button" class="navigation-button no-button" id="add-cleaning-no" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
@@ -333,7 +333,7 @@
                             <option value="8">8</option>
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
-                        <p class="optional-question text-center" style="color: red;">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                        <p class="optional-question text-center">Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
                         <button type="button" class="navigation-button yes-button" id="add-furniture-yes" onclick="addFurnitureService()">Oui</button>
                         <button type="button" class="navigation-button no-button" id="add-furniture-no" onclick="nextQuestion()">Non</button>
                         <div class="flex justify-between">
@@ -956,9 +956,6 @@
                 // Activer le bouton "Suivant"
                 document.getElementById('furniture-next-button').disabled = false;
             }
-
-            // Les fonctions pour la validation des champs sont déjà présentes ci-dessus
-            // Ajoutez toutes vos autres fonctions ici...
 
         </script>
     </div>
