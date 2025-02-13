@@ -79,7 +79,8 @@
 /* Styles pour les smartphones (écrans étroits) */
 @media (max-width: 767px) {
     .video-background {
-        /* Vous pouvez ajouter d'autres styles spécifiques aux smartphones ici */
+        height: 100vh; /* Remplit toute la hauteur de la fenêtre sur smartphone */
+        transform: translate(-50%, 0); /* Centre horizontalement, mais pas verticalement */
     }
 }
 
@@ -149,7 +150,7 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
