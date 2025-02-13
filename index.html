@@ -131,7 +131,7 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
@@ -586,46 +586,11 @@
                 document.getElementById('progress').style.width = `${progress}%`;
             }
 
-            function handleFormuleChange() {
-                const formule = document.getElementById('formule').value;
-
-                document.getElementById('question10-options').classList.add('hidden');
-                document.getElementById('question14-options').classList.add('hidden');
-
-                if (formule === 'economique') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    document.getElementById('question14-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    lockQuestion(14);
-                } else if (formule === 'premium') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    unlockQuestion(14);
-                } else if (formule === 'prestige') {
-                    unlockQuestion(10);
-                    unlockQuestion(14);
-                }
-            }
-
-            function lockQuestion(questionNumber) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = true;
-            }
-
-            function unlockQuestion(questionNumber, hideOptions = false) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = false;
-                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-                if (optionsDiv && hideOptions) {
-                    optionsDiv.classList.add('hidden');
-                }
-            }
-
             function validateName() {
                 const nameInput = document.getElementById('nom_prenom');
                 const obligatoryMessage = document.getElementById('name-obligatory');
 
-                if (/[a-z]/i.test(nameInput.value)) {
+                if (nameInput.value.trim() !== '') {
                     obligatoryMessage.classList.add('valid');
                 } else {
                     obligatoryMessage.classList.remove('valid');
@@ -664,7 +629,7 @@
                 const addressInput = document.getElementById(inputId);
                 const obligatoryMessage = document.getElementById(messageId);
 
-                if (/[a-z]/i.test(addressInput.value)) {
+                if (addressInput.value.trim() !== '') {
                     obligatoryMessage.classList.add('valid');
                 } else {
                     obligatoryMessage.classList.remove('valid');
@@ -861,8 +826,6 @@
                     discountedCost *= 0.90;
                     document.getElementById('discount-message').classList.remove('hidden');
                 }
-
-                const roundedCost = Math.floor(discountedCost * 10) / 10;
 
                 document.getElementById('originalCost').innerText = originalCost.toFixed(2);
                 document.getElementById('discountedPrice').innerText = discountedCost.toFixed(2);
@@ -1203,6 +1166,7 @@
                 }
             }
 
+            // Ajout du bouton WhatsApp
             const whatsappButton = document.createElement('a');
             whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
             whatsappButton.target = "_blank";
