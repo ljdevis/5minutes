@@ -693,9 +693,10 @@
                     return;
                 }
 
-                const cost = calculateCost();
-                saveForm(cost);
-                checkAdditionalCost();
+                const cost = calculateCost(); // Calculer le coût
+                saveForm(cost); // Enregistrer le formulaire et envoyer les emails
+                checkAdditionalCost(); // Vérifier et afficher les coûts supplémentaires si nécessaire
+                showPage('page3'); // Afficher la page 3 avec les résultats
             }
 
             function calculateCost() {
