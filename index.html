@@ -60,40 +60,33 @@
         }
         .video-background {
     position: fixed;
-    top: 0; /* Positionne en haut de l'écran */
-    left: 50%; /* Centre horizontalement */
-    width: 100vw; /* Remplit toute la largeur de la fenêtre */
-    height: 100vh; /* Remplit toute la hauteur de la fenêtre */
-    z-index: -1; /* Place derrière le contenu */
-    pointer-events: none; /* Ignore les événements de souris */
-    transform: translate(-50%, 0); /* Centre verticalement sans zoom */
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    transform: translate(-50%, 0); /* Centre horizontalement */
+}
+
+.video-background iframe {
+    width: 100%; /* Remplit la largeur du conteneur */
+    height: 100%; /* Remplit la hauteur du conteneur */
+    border: none; /* Pas de bordure */
+    display: none; /* Cache par défaut */
 }
 
 /* Styles pour les ordinateurs (écrans larges) */
 @media (min-width: 768px) {
-    .video-background {
-        /* Vous pouvez ajouter d'autres styles spécifiques aux ordinateurs ici */
+    .video-desktop {
+        display: block; /* Affiche la vidéo pour ordinateur */
     }
 }
 
 /* Styles pour les smartphones (écrans étroits) */
 @media (max-width: 767px) {
-    .video-background {
-        height: 100vh; /* Remplit toute la hauteur de la fenêtre sur smartphone */
-        transform: translate(-50%, 0); /* Centre horizontalement, mais pas verticalement */
-    }
-}
-
-/* Style pour l'iframe */
-.video-background iframe {
-    width: 100%; /* Remplit la largeur de son conteneur */
-    height: 100%; /* Remplit la hauteur de son conteneur */
-    border: none; /* Pas de bordure */
-}
-
-@media (max-width: 768px) {
-    .video-background iframe {
-        height: 56.25vw; /* Correspond à 16:9 en fonction de la largeur */
+    .video-mobile {
+        display: block; /* Affiche la vidéo pour smartphone */
     }
 }
         .content-container {
@@ -150,7 +143,11 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allowfullscreen></iframe>
+        <!-- Vidéo pour ordinateur -->
+        <iframe class="video-desktop" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    
+        <!-- Vidéo pour smartphone -->
+        <iframe class="video-mobile" src="https://www.youtube.com/embed/OJA9uZ60nD4?autoplay=1&mute=1&loop=1&playlist=OJA9uZ60nD4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
