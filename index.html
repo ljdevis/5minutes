@@ -60,34 +60,34 @@
         }
         .video-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(1); /* Zoom par défaut */
-    transform-origin: center;
+    top: 0; /* Positionne en haut de l'écran */
+    left: 50%; /* Centre horizontalement */
+    width: 100vw; /* Remplit toute la largeur de la fenêtre */
+    height: 100vh; /* Remplit toute la hauteur de la fenêtre */
+    z-index: -1; /* Place derrière le contenu */
+    pointer-events: none; /* Ignore les événements de souris */
+    transform: translate(-50%, 0); /* Centre verticalement sans zoom */
 }
 
-/* Zoom pour les ordinateurs (écrans larges) */
+/* Styles pour les ordinateurs (écrans larges) */
 @media (min-width: 768px) {
     .video-background {
-        transform: translate(-50%, -50%) scale(1.2); /* Zoom de 120% sur ordinateur */
+        /* Vous pouvez ajouter d'autres styles spécifiques aux ordinateurs ici */
     }
 }
 
-/* Zoom pour les smartphones (écrans étroits) */
+/* Styles pour les smartphones (écrans étroits) */
 @media (max-width: 767px) {
     .video-background {
-        transform: translate(-50%, -50%) scale(1); /* Pas de zoom sur smartphone */
+        /* Vous pouvez ajouter d'autres styles spécifiques aux smartphones ici */
     }
 }
 
+/* Style pour l'iframe */
 .video-background iframe {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Remplit le conteneur sans déformer la vidéo */
+    width: 100%; /* Remplit la largeur de son conteneur */
+    height: 100%; /* Remplit la hauteur de son conteneur */
+    border: none; /* Pas de bordure */
 }
 
 @media (max-width: 768px) {
