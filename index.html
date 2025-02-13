@@ -60,12 +60,14 @@
         }
         .video-background {
     position: fixed;
-    top: -0cm;
-    left: -0cm;
-    width: 100vw;
-    height: 200vh; /* Remplit toute la hauteur de la fenêtre */
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    width: 80vw; /* 80% de la largeur de la fenêtre */
+    height: 80vh; /* 80% de la hauteur de la fenêtre */
     z-index: -1;
     pointer-events: none;
+    transform: translate(-50%, -50%) scale(1.8); /* Centre et applique un zoom de 180% */
+    transform-origin: center; /* Centre le zoom */
 }
 
 .video-background iframe {
