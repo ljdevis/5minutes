@@ -60,7 +60,7 @@
         }
         .video-background {
             position: fixed;
-            top: -2cm; /* Remonter la vidéo de 2 cm */
+            top: -1.5cm;
             left: -0.01cm;
             width: 100vw;
             height: 100vh;
@@ -83,7 +83,7 @@
             display: none;
         }
         .obligatory-message {
-            color: #D32F2F; /* Rouge vif */
+            color: #D32F2F;
             font-size: 0.85rem;
             display: flex;
             align-items: center;
@@ -91,7 +91,7 @@
             transition: color 0.3s;
         }
         .obligatory-message.valid {
-            color: #28a745; /* Vert */
+            color: #28a745;
         }
         .obligatory-message i {
             margin-right: 5px;
@@ -99,31 +99,33 @@
         .discounted-price {
             color: green;
             font-weight: bold;
-            font-size: 1.25rem; /* Agrandir le texte du prix final */
+            font-size: 1.25rem;
         }
         .promotion-message {
             color: green;
-            font-size: 1.0rem; /* Agrandir le texte de promotion */
-            font-weight: bold; /* En gras */
+            font-size: 1.0rem;
+            font-weight: bold;
             margin-top: 10px;
         }
         .optional-question {
-            color: #FFA500; /* Orange */
+            color: #FFA500;
         }
-        .social-logos {
-            text-align: center;
+        .social-icons {
+            display: flex;
+            justify-content: center;
             margin-top: 20px;
         }
-        .social-logos img {
-            width: 30px; /* Taille des logos */
+        .social-icons a {
             margin: 0 10px;
+            color: #3b82f6;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/oHgKwwmO7mo?autoplay=1&mute=1&loop=1&playlist=oHgKwwmO7mo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
@@ -502,7 +504,6 @@
         <div id="page3" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden hidden">
             <div class="p-6 text-center">
                 <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span id="originalCost"></span> CHF</h1>
-                <p class="text-lg mb-2"><span id="originalPrice"></span> CHF</p>
                 <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
                 <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
                 <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
@@ -512,13 +513,13 @@
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/contact'">Page de Contact</button>
                 </div>
                 <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-blue-500 hover:underline">Laissez un feedback sur Google.</a></p>
+                <div class="social-icons">
+                    <a href="https://facebook.com"><i class="fab fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://tiktok.com"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://youtube.com"><i class="fab fa-youtube"></i></a>
+                </div>
                 <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
-            </div>
-            <div class="social-logos">
-                <a href="https://www.facebook.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
-                <a href="https://www.instagram.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
-                <a href="https://www.tiktok.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/60/TikTok_logo.svg" alt="TikTok"></a>
-                <a href="https://www.youtube.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube"></a>
             </div>
         </div>
 
@@ -545,7 +546,6 @@
                     nextDiv.classList.remove('hidden');
                 } else {
                     showPage('page3');
-                    sendInitialData(); // Envoi des données des 3 premières questions
                 }
                 updateProgressBar();
             }
@@ -566,30 +566,6 @@
             function updateProgressBar() {
                 const progress = (currentQuestion / totalQuestions) * 100;
                 document.getElementById('progress').style.width = `${progress}%`;
-            }
-
-            function sendInitialData() {
-                const nomPrenom = document.getElementById('nom_prenom').value;
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-
-                const message = `
-                    Nom et Prénom: ${nomPrenom}
-                    Email: ${email}
-                    Téléphone: ${telephone}
-                `;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    to_email: email,
-                    from_name: "L&J Déménagement",
-                    reply_to: email,
-                    subject: "Données initiales du formulaire",
-                    message: message
-                }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                }, (err) => {
-                    console.error('FAILED...', err);
-                });
             }
 
             function handleFormuleChange() {
@@ -712,12 +688,10 @@
                 const ascenseur = document.getElementById('ascenseur').value;
                 const monte_charge = document.getElementById('monte_charge').value;
 
-                // Coût par formule
                 if (formule === 'economique') cost += 0;
-                else if (formule === 'premium') cost += 100; // Coût supplémentaire pour premium
-                else if (formule === 'prestige') cost += cost * 1; // Coût supplémentaire pour prestige
+                else if (formule === 'premium') cost += 100;
+                else if (formule === 'prestige') cost += cost * 1;
 
-                // Coûts en fonction du nombre de pièces
                 const piecesCost = {
                     studio: 450,
                     une_piece: 600,
@@ -734,7 +708,6 @@
 
                 cost += piecesCost[pieces] || 0;
 
-                // Coût pour les superficies
                 const superficieElement = document.querySelector(`#sous-options-pieces select`);
                 if (superficieElement) {
                     const selectedOption = superficieElement.options[superficieElement.selectedIndex];
@@ -743,7 +716,6 @@
                     cost += baseCost * additionalCostPercentage;
                 }
 
-                // Coût pour le nettoyage
                 const nettoyageCosts = {
                     '30_49': 350,
                     '50_69': 450,
@@ -758,7 +730,6 @@
                 };
                 cost += nettoyageCosts[nettoyage] || 0;
 
-                // Coût pour la distance
                 const distanceCosts = {
                     '0_9': 0,
                     '10_29': 50,
@@ -770,7 +741,6 @@
                 };
                 cost += distanceCosts[distance] || 0;
 
-                // Coût pour les cartons
                 const cartonsCosts = {
                     'formule_m': 49,
                     'formule_l': 138,
@@ -778,7 +748,6 @@
                 };
                 cost += cartonsCosts[cartons] || 0;
 
-                // Coût pour les lits adultes
                 const litAdulteCosts = {
                     '0': 0,
                     '1': 0,
@@ -793,7 +762,6 @@
                 };
                 cost += litAdulteCosts[lit_adulte] || 0;
 
-                // Coût pour les lits enfants
                 const litEnfantCosts = {
                     '0': 0,
                     '1': 0,
@@ -808,7 +776,6 @@
                 };
                 cost += litEnfantCosts[lit_enfant] || 0;
 
-                // Coût pour les meubles
                 const meubleCosts = {
                     '0': 0,
                     '1': 150,
@@ -823,7 +790,6 @@
                 };
                 cost += meubleCosts[meubles] || 0;
 
-                // Coût pour les canapés
                 const canapeCosts = {
                     '0': -50,
                     '1': 0,
@@ -834,7 +800,6 @@
                 };
                 cost += canapeCosts[canape] || 0;
 
-                // Coût pour les réfrigérateurs
                 const frigoCosts = {
                     '0': 0,
                     '1': 0,
@@ -849,20 +814,29 @@
                 };
                 cost += frigoCosts[frigo] || 0;
 
-                // Coûts supplémentaires
-                if (balcon === 'balcon') cost += cost * 0.10; // 10% supplémentaire si balcon
-                if (balcon === 'terrasse') cost += cost * 0.15; // 15% supplémentaire si terrasse
-                if (cave === 'oui') cost += cost * 0.10; // 10% supplémentaire si cave
-                if (acces === 'difficile') cost += cost * 0.20; // 20% supplémentaire si accès difficile
-                if (ascenseur === 'non') cost += cost * 0.10; // 10% supplémentaire si pas d'ascenseur
-                else if (ascenseur === 'une_adresse') cost += cost * 0.05; // 5% si ascenseur à une seule adresse
-                if (monte_charge === 'oui') cost += 700; // Coût fixe si monte-meuble nécessaire
+                if (balcon === 'balcon') cost += cost * 0.10;
+                if (balcon === 'terrasse') cost += cost * 0.15;
+                if (cave === 'oui') cost += cost * 0.10;
+                if (acces === 'difficile') cost += cost * 0.20;
+                if (ascenseur === 'non') cost += cost * 0.10;
+                else if (ascenseur === 'une_adresse') cost += cost * 0.05;
+                if (monte_charge === 'oui') cost += 700;
 
-                // Mettre à jour les prix affichés
-                document.getElementById('originalPrice').innerText = cost.toFixed(2);
-                document.getElementById('discountedPrice').innerText = cost.toFixed(2);
-                document.getElementById('originalCost').innerText = cost.toFixed(2);
+                const originalCost = cost;
 
+                const today = new Date();
+                let discountedCost = cost;
+                if (today.getMonth() === 0) {
+                    discountedCost *= 0.90;
+                    document.getElementById('discount-message').classList.remove('hidden');
+                }
+
+                const roundedCost = Math.floor(discountedCost * 10) / 10;
+
+                document.getElementById('originalPrice').innerText = originalCost.toFixed(2);
+                document.getElementById('discountedPrice').innerText = roundedCost.toFixed(2);
+                
+                document.getElementById('originalCost').innerText = originalCost.toFixed(2);
                 return cost;
             }
 
@@ -1015,11 +989,10 @@
                 }, 3000);
             }
 
-            // Gestion des sous-options pour l'objet sélectionné
             function handleObjetChange() {
                 const objet = document.getElementById('objet').value;
                 const sousOptionsDiv = document.getElementById('sous-options-objet');
-                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                sousOptionsDiv.innerHTML = '';
 
                 if (objet === "Appartement") {
                     sousOptionsDiv.innerHTML = `
@@ -1072,7 +1045,7 @@
             function handlePiecesChange() {
                 const pieces = document.getElementById('pieces').value;
                 const sousOptionsDiv = document.getElementById('sous-options-pieces');
-                sousOptionsDiv.innerHTML = ''; // Réinitialiser les sous-options
+                sousOptionsDiv.innerHTML = '';
 
                 const pieceOptions = {
                     studio: `
@@ -1191,7 +1164,7 @@
 
             function updateCostForSousSol() {
                 const sousSolCheckbox = document.getElementById('sous_sol');
-                const baseCost = 100; // Coût additionnel pour sous-sol
+                const baseCost = 100;
                 const currentPrice = parseFloat(document.getElementById('prixDevis').innerText);
                 if (sousSolCheckbox.checked) {
                     document.getElementById('prixDevis').innerText = (currentPrice + baseCost).toFixed(2);
@@ -1199,25 +1172,6 @@
                     document.getElementById('prixDevis').innerText = (currentPrice - baseCost).toFixed(2);
                 }
             }
-
-            // Bouton WhatsApp pour un contact direct
-            const whatsappButton = document.createElement('a');
-            whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
-            whatsappButton.target = "_blank";
-            whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
-            document.body.appendChild(whatsappButton);
-
-            // Fonction pour afficher les notifications
-            function showNotification(message, type) {
-                const notification = document.getElementById('notification');
-                notification.className = `notification ${type}`;
-                notification.innerText = message;
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
-            }
-
         </script>
     </div>
 </body>
