@@ -79,15 +79,15 @@
     }
 
     .video-mobile {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%; /* Prendre toute la largeur */
-        height: 100%; /* Prendre toute la hauteur */
-        transform: translate(-50%, -50%) scale(2.8); /* Zoomer à 2.8 sur la vidéo mobile */
-        object-fit: cover; /* Couvrir l'élément parent */
-        z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
-    }
+    position: absolute;
+    top: -1cm; /* Déplacer la vidéo de 1 cm vers le haut */
+    left: -0.5cm; /* Déplacer la vidéo de 0.5 cm vers la gauche */
+    width: calc(100% + 1cm); /* Prendre toute la largeur plus 1 cm pour compenser */
+    height: calc(100% + 1cm); /* Prendre toute la hauteur plus 1 cm pour compenser */
+    transform: scale(2.8); /* Zoomer à 2.8 sur la vidéo mobile */
+    object-fit: cover; /* Couvrir l'élément parent */
+    z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
+}
     
             .overlay {
                 position: absolute;
