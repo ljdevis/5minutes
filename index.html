@@ -60,14 +60,28 @@
         }
         .video-background {
     position: fixed;
-    top: 80%; /* Déplace la vidéo vers le haut */
-    left: 50%; /* Centre horizontalement */
-    width: 80vw; /* 80% de la largeur de la fenêtre */
-    height: 80vh; /* 80% de la hauteur de la fenêtre */
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
     pointer-events: none;
-    transform: translate(-50%, -50%) scale(1.2); /* Centre et applique un zoom de 120% */
-    transform-origin: center; /* Centre le zoom */
+    transform: translate(-50%, -50%) scale(1); /* Zoom par défaut */
+    transform-origin: center;
+}
+
+/* Zoom pour les ordinateurs (écrans larges) */
+@media (min-width: 768px) {
+    .video-background {
+        transform: translate(-50%, -50%) scale(1.2); /* Zoom de 120% sur ordinateur */
+    }
+}
+
+/* Zoom pour les smartphones (écrans étroits) */
+@media (max-width: 767px) {
+    .video-background {
+        transform: translate(-50%, -50%) scale(1); /* Pas de zoom sur smartphone */
+    }
 }
 
 .video-background iframe {
