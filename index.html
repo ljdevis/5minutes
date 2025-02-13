@@ -140,8 +140,23 @@
         <script type="text/javascript">
             (function () {
                 emailjs.init("es5i8pk88qOLfaaBj");
-            })();
-        </script>
+        })();
+
+        // Ajoutez ici la détection de l'appareil
+        window.onload = function() {
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const desktopVideo = document.querySelector('.video-desktop');
+            const mobileVideo = document.querySelector('.video-mobile');
+
+            if (isMobile) {
+                desktopVideo.classList.add('hidden'); // Cacher la vidéo desktop
+                mobileVideo.classList.remove('hidden'); // Afficher la vidéo mobile
+            } else {
+                mobileVideo.classList.add('hidden'); // Cacher la vidéo mobile
+                desktopVideo.classList.remove('hidden'); // Afficher la vidéo desktop
+            }
+        };
+    </script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <div class="p-6 text-center">
