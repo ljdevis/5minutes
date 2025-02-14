@@ -1,221 +1,161 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L&J Déménagement</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #e5e7eb;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .progress {
-            height: 8px;
-            background-color: #3b82f6;
-            width: 0%;
-            border-radius: 5px;
-            transition: width 0.4s ease;
-        }
-        .hidden {
-            display: none;
-        }
-        .navigation-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .next-button {
-            background-color: #3b82f6;
-            color: white;
-        }
-        .back-button {
-            background-color: #a0aec0;
-            color: white;
-            float: right;
-        }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size:Voici le code HTML et JavaScript complet avec les modifications demandées :
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>L&J Déménagement</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            /* Supprime les marges et le padding par défaut */
+            body {
+                margin: 0; /* Supprime la marge du body */
+                padding: 0; /* Supprime le padding du body */
+                overflow: hidden; /* Cacher le débordement pour éviter le défilement */
+            }
+    
+            /* Styles pour la barre de progression */
+            .progress-bar {
+                width: 100%;
+                height: 8px;
+                background-color: #e5e7eb;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+            .progress {
+                height: 8px;
+                background-color: #3b82f6;
+                width: 0%;
+                border-radius: 5px;
+                transition: width 0.4s ease;
+            }
+            .hidden {
+                display: none;
+            }
+            .disabled {
+                pointer-events: none;
+                opacity: 0.5;
+            }
+            .navigation-button {
+                display: inline-block;
+                margin: 5px;
+                padding: 8px 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .next-button {
+                background-color: #3b82f6;
+                color: white;
+            }
+            .back-button {
+                background-color: #a0aec0;
+                color: white;
+                float: right;
+            }
+            .whatsapp-button {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #25D366;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                padding: 15px;
+                font-size: 24px;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+            .video-background {
+                position: fixed; /* Fixer la vidéo à l'arrière-plan */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* Prendre toute la hauteur de l'écran */
+                overflow: hidden; /* Cacher le débordement pour le zoom */
+            }
+    
+            .video-desktop {
+        position: absolute;
+        top: - 8cm; /* Déplacer la vidéo de 14 cm vers le haut */
+        left: 11cm; /* Déplacer la vidéo de 11 cm vers la gauche */
+        width: 100%; /* Prendre toute la largeur */
+        height: 100%; /* Prendre toute la hauteur */
+        transform: translate(-50%, -50%) scale(1.5); /* Centrer et dészoomer légèrement */
+        object-fit: cover; /* Couvrir l'élément parent */
+        z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
+    }
 
-```html
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L&J Déménagement</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #e5e7eb;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .progress {
-            height: 8px;
-            background-color: #3b82f6;
-            width: 0%;
-            border-radius: 5px;
-            transition: width 0.4s ease;
-        }
-        .hidden {
-            display: none;
-        }
-        .navigation-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .next-button {
-            background-color: #3b82f6;
-            color: white;
-        }
-        .back-button {
-            background-color: #a0aec0;
-            color: white;
-            float: right;
-        }
-        .whatsapp-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .video-desktop {
-            position: absolute;
-            top: -8cm;
-            left: 11cm;
-            width: 100%;
-            height: 100%;
-            transform: translate(-50%, -50%) scale(1.5);
-            object-fit: cover;
-            z-index: 1;
-        }
-        .video-mobile {
-            position: absolute;
-            top: 7.5cm;
-            left: -2cm;
-            width: calc(100% + 1cm);
-            height: calc(100% + 1cm);
-            transform: scale(2.9);
-            object-fit: cover;
-            z-index: 1;
-        }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 10;
-        }
-        .content-container {
-            position: relative;
-            z-index: 1;
-            background-color: rgba(255, 255, 255, 0.01);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .obligatory-message {
-            color: #D32F2F;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            margin-top: 4px;
-            transition: color 0.3s;
-        }
-        .obligatory-message.valid {
-            color: #28a745;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .social-icons i {
-            font-size: 24px;
-            color: #3b82f6;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-100 font-sans antialiased">
-    <div class="video-background">
-        <iframe class="video-desktop" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <iframe class="video-mobile hidden" src="https://www.youtube.com/embed/Y3ClPbMKc38?autoplay=1&mute=1&loop=1&playlist=Y3ClPbMKc38&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <div class="overlay"></div>
-    </div>
-
-    <div class="content-container">
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-        <script type="text/javascript">
-            (function () {
-                emailjs.init("es5i8pk88qOLfaaBj");
-            })();
-
-            window.onload = function() {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                const desktopVideo = document.querySelector('.video-desktop');
-                const mobileVideo = document.querySelector('.video-mobile');
-
-                if (isMobile) {
-                    desktopVideo.classList.add('hidden');
-                    mobileVideo.classList.remove('hidden');
-                } else {
-                    mobileVideo.classList.add('hidden');
-                    desktopVideo.classList.remove('hidden');
+    .video-mobile {
+    position: absolute;
+    top: 7.5cm; /* Déplacer la vidéo de 7.5 cm vers le bas */
+    left: - 2cm; /* Déplacer la vidéo de 2 cm vers la droite */
+    width: calc(100% + 1cm); /* Prendre toute la largeur plus 1 cm pour compenser */
+    height: calc(100% + 1cm); /* Prendre toute la hauteur plus 1 cm pour compenser */
+    transform: scale(2.9); /* Zoomer à 2.9 sur la vidéo mobile */
+    object-fit: cover; /* Couvrir l'élément parent */
+    z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
+}
+    
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0); /* Transparent */
+                z-index: 10; /* La couche doit être au-dessus de la vidéo */
+            }
+            .video-background iframe {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            @media (max-width: 768px) {
+                .video-background iframe {
+                    height: 56.25vw; /* Correspond à 16:9 en fonction de la largeur */
                 }
-            };
-        </script>
+            }
+            .content-container {
+                position: relative;
+                z-index: 1;
+                background-color: rgba(255, 255, 255, 0.01);
+                padding: 20px;
+                border-radius: 10px;
+            }
+            /* Autres styles... */
+        </style>
+    </head>
+    
+    <body class="bg-gray-100 font-sans antialiased">
+        <div class="video-background">
+            <iframe class="video-desktop" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe class="video-mobile hidden" src="https://www.youtube.com/embed/Y3ClPbMKc38?autoplay=1&mute=1&loop=1&playlist=Y3ClPbMKc38&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div class="overlay"></div> <!-- Couche invisible ajoutée ici -->
+        </div>
+    
+        <div class="content-container">
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+            <script type="text/javascript">
+                (function () {
+                    emailjs.init("es5i8pk88qOLfaaBj");
+        })();
+
+        // Ajoutez ici la détection de l'appareil
+        window.onload = function() {
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const desktopVideo = document.querySelector('.video-desktop');
+            const mobileVideo = document.querySelector('.video-mobile');
+
+            if (isMobile) {
+                desktopVideo.classList.add('hidden'); // Cacher la vidéo desktop
+                mobileVideo.classList.remove('hidden'); // Afficher la vidéo mobile
+            } else {
+                mobileVideo.classList.add('hidden'); // Cacher la vidéo mobile
+                desktopVideo.classList.remove('hidden'); // Afficher la vidéo desktop
+            }
+        };
+    </script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <div class="p-6 text-center">
