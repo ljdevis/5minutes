@@ -126,7 +126,7 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="video-frame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
@@ -134,7 +134,125 @@
         <script type="text/javascript">
             (function () {
                 emailjs.init("es5i8pk88qOLfaaBj");
+                detectDeviceAndSetVideo();
             })();
+
+            function detectDeviceAndSetVideo() {
+                const videoFrame = document.getElementById('video-frame');
+                if (window.innerWidth <= 768) {
+                    videoFrame.src = "https://www.youtube.com/embed/Y3ClPbMKc38?autoplay=1&mute=1&loop=1&playlist=Y3ClPbMKc38";
+                } else {
+                    videoFrame.src = "https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg";
+                }
+            }
+
+            function sendInitialData() {
+                const nomPrenom = document.getElementById('nom_prenom').value;
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+
+                const message = `
+                    Voici les trois premières réponses du formulaire de déménagement :
+
+                    Nom et Prénom: ${nomPrenom}
+                    Adresse Email: ${email}
+                    Numéro de Téléphone: ${telephone}
+                `;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    nom_prenom: nomPrenom,
+                    email: email,
+                    telephone: telephone,
+                    message: message
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    nextQuestion();
+                }, (err) => {
+                    console.error('FAILED...', err);
+                });
+            }
+
+            let currentQuestion = 1;
+            const totalQuestions = 23;
+
+            function showPage(page) {
+                document.getElementById('page1').classList.add('hidden');
+                document.getElementById('page2').classList.add('hidden');
+                document.getElementById('page3').classList.add('hidden');
+                document.getElementById(page).classList.remove('hidden');
+            }
+
+            function nextQuestion() {
+                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                currentDiv.classList.add('hidden');
+                currentQuestion++;
+                if (currentQuestion <= totalQuestions) {
+                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    nextDiv.classList.remove('hidden');
+                } else {
+                    showPage('page3');
+                }
+                updateProgressBar();
+            }
+
+            function previousQuestion() {
+                if (currentQuestion > 1) {
+                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    currentDiv.classList.add('hidden');
+                    currentQuestion--;
+                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
+                    previousDiv.classList.remove('hidden');
+                } else {
+                    showPage('page1');
+                }
+                updateProgressBar();
+            }
+
+            function updateProgressBar() {
+                const progress = (currentQuestion / totalQuestions) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            }
+
+            function validateName() {
+                const nameInput = document.getElementById('nom_prenom');
+                const obligatoryMessage = document.getElementById('name-obligatory');
+
+                if (/[a-z]/i.test(nameInput.value)) {
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            function validateEmail() {
+                const emailInput = document.getElementById('email');
+                const nextButton = document.getElementById('email-next-button');
+                const obligatoryMessage = document.getElementById('email-obligatory');
+
+                if (emailInput.value.includes('@')) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            function validateTelephone() {
+                const phoneInput = document.getElementById('telephone');
+                const nextButton = document.getElementById('telephone-next-button');
+                const obligatoryMessage = document.getElementById('telephone-obligatory');
+
+                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            // Additional functions to handle the form interactions
         </script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
@@ -182,7 +300,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="4">
                         <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle & Etage :</label>
-                        <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required oninput="validateAddress('adresse_actuelle', 'address1-obligatory')">
+                        <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required>
                         <p class="obligatory-message" id="address1-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -191,7 +309,7 @@
                     </div>
                     <div class="form-group mb-4 hidden" data-question="5">
                         <label for="adresse_future" class="block text-gray-700">5. Adresse de Destination & Etage :</label>
-                        <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required oninput="validateAddress('adresse_future', 'address2-obligatory')">
+                        <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required>
                         <p class="obligatory-message" id="address2-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -511,7 +629,6 @@
                 <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
                 <div class="mb-4">
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/contact'">Page de Contact</button>
                 </div>
                 <div class="social-icons">
@@ -529,145 +646,6 @@
         <div id="notification" class="notification hidden"></div>
 
         <script>
-            let currentQuestion = 1;
-            const totalQuestions = 23;
-
-            function showPage(page) {
-                document.getElementById('page1').classList.add('hidden');
-                document.getElementById('page2').classList.add('hidden');
-                document.getElementById('page3').classList.add('hidden');
-                document.getElementById(page).classList.remove('hidden');
-            }
-
-            function nextQuestion() {
-                const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                currentDiv.classList.add('hidden');
-                currentQuestion++;
-                if (currentQuestion <= totalQuestions) {
-                    const nextDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    nextDiv.classList.remove('hidden');
-                } else {
-                    showPage('page3');
-                }
-                updateProgressBar();
-            }
-
-            function previousQuestion() {
-                if (currentQuestion > 1) {
-                    const currentDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    currentDiv.classList.add('hidden');
-                    currentQuestion--;
-                    const previousDiv = document.querySelector(`[data-question="${currentQuestion}"]`);
-                    previousDiv.classList.remove('hidden');
-                } else {
-                    showPage('page1');
-                }
-                updateProgressBar();
-            }
-
-            function updateProgressBar() {
-                const progress = (currentQuestion / totalQuestions) * 100;
-                document.getElementById('progress').style.width = `${progress}%`;
-            }
-
-            function handleFormuleChange() {
-                const formule = document.getElementById('formule').value;
-
-                document.getElementById('question10-options').classList.add('hidden');
-                document.getElementById('question14-options').classList.add('hidden');
-
-                if (formule === 'economique') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    document.getElementById('question14-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    lockQuestion(14);
-                } else if (formule === 'premium') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    unlockQuestion(14);
-                } else if (formule === 'prestige') {
-                    unlockQuestion(10);
-                    unlockQuestion(14);
-                }
-            }
-
-            function lockQuestion(questionNumber) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = true;
-            }
-
-            function unlockQuestion(questionNumber, hideOptions = false) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = false;
-                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-                if (optionsDiv && hideOptions) {
-                    optionsDiv.classList.add('hidden');
-                }
-            }
-
-            function validateName() {
-                const nameInput = document.getElementById('nom_prenom');
-                const obligatoryMessage = document.getElementById('name-obligatory');
-
-                if (/[a-z]/i.test(nameInput.value)) {
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                }
-            }
-
-            function validateEmail() {
-                const emailInput = document.getElementById('email');
-                const nextButton = document.getElementById('email-next-button');
-                const obligatoryMessage = document.getElementById('email-obligatory');
-
-                if (emailInput.value.includes('@')) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                }
-            }
-
-            function validateTelephone() {
-                const phoneInput = document.getElementById('telephone');
-                const nextButton = document.getElementById('telephone-next-button');
-                const obligatoryMessage = document.getElementById('telephone-obligatory');
-
-                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
-                    nextButton.disabled = false;
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    nextButton.disabled = true;
-                    obligatoryMessage.classList.remove('valid');
-                }
-            }
-
-            function validateAddress(inputId, messageId) {
-                const addressInput = document.getElementById(inputId);
-                const obligatoryMessage = document.getElementById(messageId);
-
-                if (/[a-z]/i.test(addressInput.value)) {
-                    obligatoryMessage.classList.add('valid');
-                } else {
-                    obligatoryMessage.classList.remove('valid');
-                }
-            }
-
-            function sendInitialData() {
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    nom_prenom: document.getElementById('nom_prenom').value,
-                    email: document.getElementById('email').value,
-                    telephone: document.getElementById('telephone').value,
-                }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                    nextQuestion();
-                }, (err) => {
-                    console.error('FAILED...', err);
-                });
-            }
-
             function validateForm() {
                 const email = document.getElementById('email').value;
                 const telephone = document.getElementById('telephone').value;
@@ -1192,6 +1170,42 @@
             whatsappButton.target = "_blank";
             whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
             document.body.appendChild(whatsappButton);
+
+            // Fonctionnalité pour verrouiller ou déverrouiller les questions en fonction de la formule sélectionnée
+            function handleFormuleChange() {
+                const formule = document.getElementById('formule').value;
+
+                document.getElementById('question10-options').classList.add('hidden');
+                document.getElementById('question14-options').classList.add('hidden');
+
+                if (formule === 'economique') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    document.getElementById('question14-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    lockQuestion(14);
+                } else if (formule === 'premium') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    unlockQuestion(14);
+                } else if (formule === 'prestige') {
+                    unlockQuestion(10);
+                    unlockQuestion(14);
+                }
+            }
+
+            function lockQuestion(questionNumber) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = true;
+            }
+
+            function unlockQuestion(questionNumber, hideOptions = false) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = false;
+                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
+                if (optionsDiv && hideOptions) {
+                    optionsDiv.classList.add('hidden');
+                }
+            }
 
         </script>
     </div>
