@@ -31,10 +31,17 @@
         }
         .validation-message {
             color: red;
-            display: none;
+            display: block;
         }
         .valid {
             color: green !important;
+        }
+        .question-optional {
+            color: red;
+        }
+        .optional-question button {
+            background-color: red;
+            color: white;
         }
         .navigation-button {
             display: inline-block;
@@ -178,14 +185,12 @@
                 const message = document.getElementById(messageId);
                 const nextButton = document.getElementById(nextButtonId);
                 if (input.value.trim() !== '' && pattern.test(input.value)) {
-                    message.classList.remove('invalid');
+                    message.classList.remove('validation-message');
                     message.classList.add('valid');
-                    message.style.display = 'block';
                     nextButton.disabled = false;
                 } else {
                     message.classList.remove('valid');
-                    message.classList.add('invalid');
-                    message.style.display = 'block';
+                    message.classList.add('validation-message');
                     nextButton.disabled = true;
                 }
             }
@@ -218,6 +223,7 @@
                 const cost = calculateCost();
                 saveForm(cost);
                 checkAdditionalCost();
+                showPage('page3');
             }
 
             function calculateCost() {
@@ -417,70 +423,11 @@
                     Estimated_cost: cost
                 };
 
-                const message = `
-                    Madame, Monsieur,
-
-                    Nous vous remercions d'avoir utilisé notre application de devis instantané chez L&J Déménagement. Nous sommes heureux de vous fournir les réponses au formulaire et le prix estimé pour votre déménagement :
-
-                    Nom et Prénom: ${formDetails.Nom_prenom}
-                    Email: ${formDetails.Email}
-                    Téléphone: ${formDetails.Telephone}
-                    Adresse Actuelle: ${formDetails.Adresse_actuelle}
-                    Adresse Future: ${formDetails.Adresse_future}
-                    Statut: ${formDetails.Statut}
-                    Formule: ${formDetails.Formule}
-                    Objet: ${formDetails.Objet} - Nombre d'étages: ${formDetails.Etages}
-                    Pièces: ${formDetails.Pieces} - Superficie: ${formDetails.Superficie}
-                    Nettoyage: ${formDetails.Nettoyage}
-                    Distance: ${formDetails.Distance}
-                    Lits Adultes: ${formDetails.Lit_adulte}
-                    Lits Enfants: ${formDetails.Lit_enfant}
-                    Meubles: ${formDetails.Meubles}
-                    Canapé: ${formDetails.Canape}
-                    Frigo: ${formDetails.Frigo}
-                    Balcon: ${formDetails.Balcon}
-                    Cave: ${formDetails.Cave}
-                    Accès: ${formDetails.Acces}
-                    Ascenseur: ${formDetails.Ascenseur}
-                    Monte Charge: ${formDetails.Monte_charge}
-                    Cartons: ${formDetails.Cartons}
-                    Commentaires: ${formDetails.Commentaires}
-                    Coût Estimé: ${formDetails.Estimated_cost} CHF
-
-                    Nous vous assurons que notre équipe dévouée mettra tout en œuvre pour rendre votre déménagement aussi fluide et serein que possible. Nous vous offrons un service de qualité, alliant professionnalisme et soin.
-
-                    Votre mandat de déménagement :
-
-                    Pour confirmer votre déménagement avec nous, veuillez répondre à cet e-mail ou nous contacter directement par téléphone au +41 78 749 35 94. Un membre de notre équipe se fera un plaisir de finaliser les détails avec vous.
-
-                    En acceptant notre mandat, vous aurez accès à :
-
-                    - Une planification sur mesure de votre déménagement.
-                    - Un interlocuteur dédié pour répondre à toutes vos questions.
-                    - Des conseils pratiques pour préparer votre départ.
-
-                    Nous restons à votre disposition pour toute information complémentaire. N'hésitez pas à visiter notre site web https://ljdemenagement.com pour plus d'informations sur nos services.
-
-                    Merci de nous faire confiance pour votre projet de déménagement. Nous espérons avoir bientôt le plaisir de vous accompagner dans cette nouvelle étape de votre vie.
-
-                    Cordialement,
-
-                    L'équipe L&J Déménagement
-                `;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    to_email: formDetails.Email,
-                    from_name: "L&J Déménagement",
-                    reply_to: formDetails.Email,
-                    subject: "Demande de devis de L&J Déménagement",
-                    message: message
-                }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                    showConfirmationMessage();
-                    showPage('page3');
+                // EmailJS code to send the form details
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", formDetails).then((response) => {
+                    console.log('Form sent successfully!', response.status, response.text);
                 }, (err) => {
-                    console.error('FAILED...', err);
-                    showNotification("Échec de l'envoi du formulaire.", 'error');
+                    console.error('Failed to send form...', err);
                 });
             }
 
@@ -500,40 +447,26 @@
                 }
             }
 
-            function showConfirmationMessage() {
-                const confirmationMessage = document.getElementById('confirmation-message');
-                confirmationMessage.style.display = 'block';
-                confirmationMessage.innerText = "Confirmation de l'envoi";
-                setTimeout(() => {
-                    confirmationMessage.style.display = 'none';
-                }, 3000);
+            function handleFormuleChange() {
+                const formule = document.getElementById('formule').value;
+                const nettoyage = document.querySelector('[data-question="10"] select');
+                const meubles = document.querySelector('[data-question="14"] select');
+
+                if (formule === 'prestige') {
+                    nettoyage.disabled = false;
+                    meubles.disabled = false;
+                } else {
+                    nettoyage.disabled = true;
+                    meubles.disabled = true;
+                }
             }
 
-            function markContacted() {
-                const email = document.getElementById('email').value;
-
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    reply_to: email,
-                    from_name: "L&J Déménagement",
-                    subject: "Demande de contact",
-                    message: "Vous serez contacté par un agent de L&J Déménagement."
-                }).then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                    alert('Votre demande a été envoyée avec succès !');
-                }, (err) => {
-                    console.error('FAILED...', err);
-                    alert("Échec de l'envoi de la demande.");
-                });
-            }
-
-            function showNotification(message, type) {
-                const notification = document.getElementById('notification');
-                notification.className = `notification ${type}`;
-                notification.innerText = message;
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
+            function unlockQuestion(questionNumber, unlock) {
+                const question = document.querySelector(`[data-question="${questionNumber}"] select`);
+                question.disabled = !unlock;
+                if (unlock) {
+                    document.getElementById(`question${questionNumber}-options`).classList.add('hidden');
+                }
             }
 
             function handleObjetChange() {
@@ -859,7 +792,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="10">
-                        <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
+                        <label for="nettoyage" class="block text-gray-700 question-optional">10. Service de Nettoyage :</label>
                         <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">Pas de nettoyage</option>
@@ -947,7 +880,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="14">
-                        <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
+                        <label for="meubles" class="block text-gray-700 question-optional">14. Meubles à Démonter et Remonter :</label>
                         <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
