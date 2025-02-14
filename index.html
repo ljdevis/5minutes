@@ -122,7 +122,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script type="text/javascript">
             (function () {
-                emailjs.init("es5i8pk88qOLfaaBj");
+                emailjs.init("YOUR_USER_ID");
             })();
 
             window.onload = function() {
@@ -196,10 +196,14 @@
             }
 
             function sendInitialData() {
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
-                    nom_prenom: document.getElementById('nom_prenom').value,
-                    email: document.getElementById('email').value,
-                    telephone: document.getElementById('telephone').value,
+                const nom = document.getElementById('nom_prenom').value;
+                const email = document.getElementById('email').value;
+                const telephone = document.getElementById('telephone').value;
+
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    nom_prenom: nom,
+                    email: email,
+                    telephone: telephone,
                 }).then((response) => {
                     console.log('SUCCESS!', response.status, response.text);
                     nextQuestion();
@@ -222,7 +226,6 @@
 
                 const cost = calculateCost();
                 saveForm(cost);
-                checkAdditionalCost();
                 showPage('page3');
             }
 
@@ -420,31 +423,15 @@
                     Monte_charge: document.getElementById('monte_charge').value,
                     Cartons: document.getElementById('cartons').value,
                     Commentaires: document.getElementById('commentaires').value,
-                    Estimated_cost: cost
+                    Estimated_cost: cost.toFixed(2)
                 };
 
-                // EmailJS code to send the form details
-                emailjs.send("service_wd4pvu4", "template_e3f3f4p", formDetails).then((response) => {
+                // Envoi de l'email avec EmailJS
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formDetails).then((response) => {
                     console.log('Form sent successfully!', response.status, response.text);
                 }, (err) => {
                     console.error('Failed to send form...', err);
                 });
-            }
-
-            function checkAdditionalCost() {
-                const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
-                    'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
-                    'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
-                    'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
-
-                const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
-                const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
-
-                if (hasAsteriskOption) {
-                    document.getElementById('additional-cost-message').classList.remove('hidden');
-                } else {
-                    document.getElementById('additional-cost-message').classList.add('hidden');
-                }
             }
 
             function handleFormuleChange() {
