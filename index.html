@@ -7,11 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -29,19 +24,9 @@
         .hidden {
             display: none;
         }
-        .validation-message {
-            color: red;
-            display: block;
-        }
-        .valid {
-            color: green !important;
-        }
-        .question-optional {
-            color: red;
-        }
-        .optional-question button {
-            background-color: red;
-            color: white;
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
         }
         .navigation-button {
             display: inline-block;
@@ -51,8 +36,15 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .next-button { background-color: #3b82f6; color: white; }
-        .back-button { background-color: #a0aec0; color: white; float: right; }
+        .next-button {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .back-button {
+            background-color: #a0aec0;
+            color: white;
+            float: right;
+        }
         .whatsapp-button {
             position: fixed;
             bottom: 20px;
@@ -68,30 +60,17 @@
         }
         .video-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: -1.7cm;
+            left: -0.01cm;
+            width: 100vw;
             height: 100vh;
-            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
         }
-        .video-desktop, .video-mobile {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            transform: translate(-50%, -50%);
+        .video-background iframe {
+            width: 116%;
+            height: 116%;
             object-fit: cover;
-            z-index: 1;
-        }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 10;
         }
         .content-container {
             position: relative;
@@ -100,45 +79,456 @@
             padding: 20px;
             border-radius: 10px;
         }
+        .notification {
+            display: none;
+        }
+        .obligatory-message {
+            color: #D32F2F; /* Rouge vif */
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            margin-top: 4px;
+            transition: color 0.3s;
+        }
+        .obligatory-message.valid {
+            color: #28a745; /* Vert */
+        }
+        .obligatory-message i {
+            margin-right: 5px;
+        }
+        .discounted-price {
+            color: green;
+            font-weight: bold;
+            font-size: 1.25rem; /* Agrandir le texte du prix final */
+        }
+        .promotion-message {
+            color: green;
+            font-size: 1.0rem; /* Agrandir le texte de promotion */
+            font-weight: bold; /* En gras */
+            margin-top: 10px;
+        }
+        .optional-question {
+            color: #FFA500; /* Orange */
+        }
         .social-icons {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             margin-top: 20px;
         }
         .social-icons i {
             font-size: 24px;
-            margin: 0 10px;
+            color: #3b82f6;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe class="video-desktop" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <iframe class="video-mobile hidden" src="https://www.youtube.com/embed/Y3ClPbMKc38?autoplay=1&mute=1&loop=1&playlist=Y3ClPbMKc38&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <div class="overlay"></div>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="content-container">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <script type="text/javascript">
             (function () {
-                emailjs.init("YOUR_USER_ID");
+                emailjs.init("es5i8pk88qOLfaaBj");
             })();
+        </script>
 
-            window.onload = function() {
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                const desktopVideo = document.querySelector('.video-desktop');
-                const mobileVideo = document.querySelector('.video-mobile');
+        <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+            <div class="p-6 text-center">
+                <h1 class="text-2xl font-bold text-blue-600 mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
+                <p class="text-gray-700 mb-4 text-base font-bold">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
+                <p class="text-gray-700 mb-6 text-base font-bold">RÉPONDEZ À 23 QUESTIONS ET DÉCOUVREZ VOTRE PRIX INSTANTANÉMENT.</p>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="showPage('page2')">Démarrer votre devis maintenant</button>
+                <p class="text-green-500 mt-4 font-bold">178 Devis Réalisés la semaine dernière</p>
+            </div>
+        </div>
 
-                if (isMobile) {
-                    desktopVideo.classList.add('hidden');
-                    mobileVideo.classList.remove('hidden');
-                } else {
-                    mobileVideo.classList.add('hidden');
-                    desktopVideo.classList.remove('hidden');
-                }
-            };
+        <div id="page2" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-80 shadow-md rounded-lg overflow-hidden hidden">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">Votre Déménagement Commence ici</h1>
+                <div class="progress-bar">
+                    <div id="progress" class="progress"></div>
+                </div>
+                <form id="devisForm" onsubmit="return false;">
+                    <div class="form-group mb-4" data-question="1">
+                        <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
+                        <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Alan Favre" required oninput="validateName()">
+                        <p class="obligatory-message" id="name-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="2">
+                        <label for="email" class="block text-gray-700">2. Adresse Mail :</label>
+                        <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : alan.favre@exemple.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Veuillez entrer une adresse email valide contenant @ et un domaine." oninput="validateEmail()">
+                        <p class="obligatory-message" id="email-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" id="email-next-button" disabled onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="3">
+                        <label for="telephone" class="block text-gray-700">3. Numéro de Téléphone :</label>
+                        <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : 077 345 34 45" required pattern="^\d{10,15}$" title="Veuillez entrer un numéro de téléphone valide." oninput="validateTelephone()">
+                        <p class="obligatory-message" id="telephone-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="sendInitialData()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="4">
+                        <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle & Etage :</label>
+                        <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon / 2ème étage" required oninput="validateAddress('adresse_actuelle', 'address1-obligatory')">
+                        <p class="obligatory-message" id="address1-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="5">
+                        <label for="adresse_future" class="block text-gray-700">5. Adresse de Destination & Etage :</label>
+                        <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne / 3ème étage" required oninput="validateAddress('adresse_future', 'address2-obligatory')">
+                        <p class="obligatory-message" id="address2-obligatory"><i class="fas fa-exclamation-circle"></i> Champ obligatoire : veuillez compléter cette section avant de continuer.</p>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="6">
+                        <label for="statut" class="block text-gray-700">6. Votre Statut :</label>
+                        <select id="statut" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Particulier">Particulier</option>
+                            <option value="Entreprise">Entreprise</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="7">
+                        <label for="formule" class="block text-gray-700">7. Sélection de la Formule :</label>
+                        <select id="formule" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleFormuleChange()">
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="economique">Formule Économique (Chargement & Déchargement / Transport)</option>
+                            <option value="premium">Formule Premium (Chargement & Déchargement / Transport / Démontage et Remontage des meubles)</option>
+                            <option value="prestige">Formule Prestige (Chargement & Déchargement / Transport / Démontage et Remontage des meubles / Emballage & Déballage / Nettoyage fin de bail)</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="8">
+                        <label for="objet" class="block text-gray-700">8. Type de Logement :</label>
+                        <select id="objet" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleObjetChange()">
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="Appartement">Appartement</option>
+                            <option value="Maison">Maison</option>
+                            <option value="Locaux">Locaux</option>
+                            <option value="Autre">Autre*</option>
+                        </select>
+                        <div id="sous-options-objet" class="nested-option hidden"></div>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="9">
+                        <label for="pieces" class="block text-gray-700">9. Nombre de Pièces :</label>
+                        <select id="pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handlePiecesChange()">
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="studio">Studio</option>
+                            <option value="une_piece">Une pièce</option>
+                            <option value="deux_pieces">Deux pièces</option>
+                            <option value="trois_pieces">Trois pièces</option>
+                            <option value="quatre_pieces">Quatre pièces</option>
+                            <option value="cinq_pieces">Cinq pièces</option>
+                            <option value="six_pieces">Six pièces</option>
+                            <option value="sept_pieces">Sept pièces</option>
+                            <option value="huit_pieces">Huit pièces</option>
+                            <option value="neuf_pieces">Neuf pièces</option>
+                            <option value="dix_pieces">Dix pièces</option>
+                        </select>
+                        <div id="sous-options-pieces" class="nested-option hidden"></div>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="10">
+                        <label for="nettoyage" class="block text-gray-700">10. Service de Nettoyage :</label>
+                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">Pas de nettoyage</option>
+                            <option value="30_49">30 m² à 49 m²</option>
+                            <option value="50_69">50 m² à 69 m²</option>
+                            <option value="70_89">70 m² à 89 m²</option>
+                            <option value="90_109">90 m² à 109 m²</option>
+                            <option value="110_129">110 m² à 129 m²</option>
+                            <option value="130_149">130 m² à 149 m²</option>
+                            <option value="150_169">150 m² à 169 m²</option>
+                            <option value="170_189">170 m² à 189 m²</option>
+                            <option value="190_209">190 m² à 209 m²</option>
+                            <option value="210_229">210 m² à 229 m²</option>
+                            <option value="230_249">230 m² à 249 m²</option>
+                            <option value="250_269">250 m² à 269 m²</option>
+                            <option value="270_289">270 m² à 289 m²</option>
+                            <option value="290_309">290 m² à 309 m²</option>
+                            <option value="plus_210">Plus de 210m²*</option>
+                        </select>
+                        <div id="question10-options" class="mt-2 text-center optional-question">
+                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
+                        </div>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="11">
+                        <label for="distance" class="block text-gray-700">11. Distance du Déménagement :</label>
+                        <select id="distance" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0_9">0-9 km</option>
+                            <option value="10_29">10-29 km</option>
+                            <option value="30_49">30-49 km</option>
+                            <option value="50_69">50-69 km</option>
+                            <option value="70_89">70-89 km</option>
+                            <option value="90_109">90-109 km</option>
+                            <option value="plus_110">Plus de 110km*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="12">
+                        <label for="lit_adulte" class="block text-gray-700">12. Nombre de Lits Adultes (90x200cm à 180x200cm) :</label>
+                        <select id="lit_adulte" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="13">
+                        <label for="lit_enfant" class="block text-gray-700">13. Nombre de Lits Enfants (70x140cm à 90x190cm):</label>
+                        <select id="lit_enfant" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="14">
+                        <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
+                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit*</option>
+                        </select>
+                        <div id="question14-options" class="mt-2 text-center optional-question">
+                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
+                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
+                        </div>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="15">
+                        <label for="canape" class="block text-gray-700">15. Type de Canapés :</label>
+                        <select id="canape" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">Pas de canapés</option>
+                            <option value="1">Canapé droit, trois places ou moins</option>
+                            <option value="2">Canapé droit, plus de trois places</option>
+                            <option value="3">Canapé d'angle</option>
+                            <option value="4">Set de canapés 3+2+1</option>
+                            <option value="autre">Autre*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="16">
+                        <label for="frigo" class="block text-gray-700">16. Nombre de réfrigérateurs, machines à laver, lave-vaisselle :</label>
+                        <select id="frigo" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="plus_de_huit">Plus de huit*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="17">
+                        <label for="balcon" class="block text-gray-700">17. Présence d'un Balcon ou Terrasse :</label>
+                        <select id="balcon" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="balcon">Oui, balcon</option>
+                            <option value="terrasse">Oui, terrasse</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="18">
+                        <label for="cave" class="block text-gray-700">18. Présence d'une Cave :</label>
+                        <select id="cave" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="oui">Oui</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="19">
+                        <label for="acces" class="block text-gray-700">19. Conditions d'Accès au Bâtiment :</label>
+                        <select id="acces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="facile">Facile</option>
+                            <option value="difficile">Difficile*</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="20">
+                        <label for="ascenseur" class="block text-gray-700">20. Ascenseur Disponible dans Le Bâtiment :</label>
+                        <select id="ascenseur" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="rez_de_chaussee">Rez-de-chaussée</option>
+                            <option value="deux_adresses">Oui aux deux adresses</option>
+                            <option value="une_adresse">Oui à une seule adresse</option>
+                            <option value="non">Non</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="21">
+                        <label for="monte_charge" class="block text-gray-700">21. Monte-Meuble Nécessaire :</label>
+                        <select id="monte_charge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="oui">Oui</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="22">
+                        <label for="cartons" class="block text-gray-700">22. Besoin de Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
+                        <select id="cartons" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="" disabled selected>Choisissez…</option>
+                            <option value="non">Non</option>
+                            <option value="formule_m">Formule M (lot de 10 cartons) à 49.-</option>
+                            <option value="formule_l">Formule L (lot de 30 cartons) à 138.-</option>
+                            <option value="formule_xl">Formule XL (lot de 60 cartons) à 270.-</option>
+                        </select>
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4 hidden" data-question="23">
+                        <label for="commentaires" class="block text-gray-700">23. Commentaires ou Informations Supplémentaires :</label>
+                        <input type="text" id="commentaires" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Toute information supplémentaire">
+                        <div class="flex justify-between">
+                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
+                            <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
+                        </div>
+                    </div>
+                </form>
+                <p id="resultat" class="mt-4 text-xl text-center"></p>
+                <div class="error-message text-red-500 hidden" id="error-message">Veuillez remplir tous les champs requis.</div>
+                <div class="confirmation-message text-green-500 hidden" id="confirmation-message">Confirmation de l'envoi</div>
+            </div>
+        </div>
 
+        <div id="page3" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden hidden">
+            <div class="p-6 text-center">
+                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
+                <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
+                <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
+                <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
+                <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
+                <div class="mb-4">
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/contact'">Page de Contact</button>
+                </div>
+                <div class="social-icons">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-tiktok"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <p>Votre avis compte ! <a href="https://g.co/kgs/Cug2Dpz" target="_blank" class="text-blue-500 hover:underline">Laissez un feedback sur Google.</a></p>
+                <p id="additional-cost-message" class="text-red-500 mt-4 hidden">Vous avez choisi des options qui peuvent entraîner des coûts supplémentaires.</p>
+            </div>
+        </div>
+
+        <div id="confirmation-message" class="notification hidden"></div>
+        <div id="notification" class="notification hidden"></div>
+
+        <script>
             let currentQuestion = 1;
             const totalQuestions = 23;
 
@@ -180,30 +570,96 @@
                 document.getElementById('progress').style.width = `${progress}%`;
             }
 
-            function validateInput(inputId, messageId, nextButtonId, pattern = /.*/) {
-                const input = document.getElementById(inputId);
-                const message = document.getElementById(messageId);
-                const nextButton = document.getElementById(nextButtonId);
-                if (input.value.trim() !== '' && pattern.test(input.value)) {
-                    message.classList.remove('validation-message');
-                    message.classList.add('valid');
-                    nextButton.disabled = false;
+            function handleFormuleChange() {
+                const formule = document.getElementById('formule').value;
+
+                document.getElementById('question10-options').classList.add('hidden');
+                document.getElementById('question14-options').classList.add('hidden');
+
+                if (formule === 'economique') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    document.getElementById('question14-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    lockQuestion(14);
+                } else if (formule === 'premium') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    unlockQuestion(14);
+                } else if (formule === 'prestige') {
+                    unlockQuestion(10);
+                    unlockQuestion(14);
+                }
+            }
+
+            function lockQuestion(questionNumber) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = true;
+            }
+
+            function unlockQuestion(questionNumber, hideOptions = false) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = false;
+                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
+                if (optionsDiv && hideOptions) {
+                    optionsDiv.classList.add('hidden');
+                }
+            }
+
+            function validateName() {
+                const nameInput = document.getElementById('nom_prenom');
+                const obligatoryMessage = document.getElementById('name-obligatory');
+
+                if (/[a-z]/i.test(nameInput.value)) {
+                    obligatoryMessage.classList.add('valid');
                 } else {
-                    message.classList.remove('valid');
-                    message.classList.add('validation-message');
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            function validateEmail() {
+                const emailInput = document.getElementById('email');
+                const nextButton = document.getElementById('email-next-button');
+                const obligatoryMessage = document.getElementById('email-obligatory');
+
+                if (emailInput.value.includes('@')) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
                     nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            function validateTelephone() {
+                const phoneInput = document.getElementById('telephone');
+                const nextButton = document.getElementById('telephone-next-button');
+                const obligatoryMessage = document.getElementById('telephone-obligatory');
+
+                if (phoneInput.value.replace(/\D/g, '').length >= 7) {
+                    nextButton.disabled = false;
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    nextButton.disabled = true;
+                    obligatoryMessage.classList.remove('valid');
+                }
+            }
+
+            function validateAddress(inputId, messageId) {
+                const addressInput = document.getElementById(inputId);
+                const obligatoryMessage = document.getElementById(messageId);
+
+                if (/[a-z]/i.test(addressInput.value)) {
+                    obligatoryMessage.classList.add('valid');
+                } else {
+                    obligatoryMessage.classList.remove('valid');
                 }
             }
 
             function sendInitialData() {
-                const nom = document.getElementById('nom_prenom').value;
-                const email = document.getElementById('email').value;
-                const telephone = document.getElementById('telephone').value;
-
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    nom_prenom: nom,
-                    email: email,
-                    telephone: telephone,
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    nom_prenom: document.getElementById('nom_prenom').value,
+                    email: document.getElementById('email').value,
+                    telephone: document.getElementById('telephone').value,
                 }).then((response) => {
                     console.log('SUCCESS!', response.status, response.text);
                     nextQuestion();
@@ -226,7 +682,7 @@
 
                 const cost = calculateCost();
                 saveForm(cost);
-                showPage('page3');
+                checkAdditionalCost();
             }
 
             function calculateCost() {
@@ -390,6 +846,8 @@
                     document.getElementById('discount-message').classList.remove('hidden');
                 }
 
+                const roundedCost = Math.floor(discountedCost * 10) / 10;
+
                 document.getElementById('originalCost').innerText = originalCost.toFixed(2);
                 document.getElementById('discountedPrice').innerText = discountedCost.toFixed(2);
 
@@ -423,37 +881,126 @@
                     Monte_charge: document.getElementById('monte_charge').value,
                     Cartons: document.getElementById('cartons').value,
                     Commentaires: document.getElementById('commentaires').value,
-                    Estimated_cost: cost.toFixed(2)
+                    Estimated_cost: cost
                 };
 
-                // Envoi de l'email avec EmailJS
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formDetails).then((response) => {
-                    console.log('Form sent successfully!', response.status, response.text);
+                const message = `
+                    Madame, Monsieur, 
+
+                    Nous vous remercions d'avoir utilisé notre application de devis instantané chez L&J Déménagement. Nous sommes heureux de vous fournir les réponses au formulaire et le prix estimé pour votre déménagement :
+
+                    Nom et Prénom: ${formDetails.Nom_prenom}
+                    Email: ${formDetails.Email}
+                    Téléphone: ${formDetails.Telephone}
+                    Adresse Actuelle: ${formDetails.Adresse_actuelle}
+                    Adresse Future: ${formDetails.Adresse_future}
+                    Statut: ${formDetails.Statut}
+                    Formule: ${formDetails.Formule}
+                    Objet: ${formDetails.Objet} - Nombre d'étages: ${formDetails.Etages}
+                    Pièces: ${formDetails.Pieces} - Superficie: ${formDetails.Superficie}
+                    Nettoyage: ${formDetails.Nettoyage}
+                    Distance: ${formDetails.Distance}
+                    Lits Adultes: ${formDetails.Lit_adulte}
+                    Lits Enfants: ${formDetails.Lit_enfant}
+                    Meubles: ${formDetails.Meubles}
+                    Canapé: ${formDetails.Canape}
+                    Frigo: ${formDetails.Frigo}
+                    Balcon: ${formDetails.Balcon}
+                    Cave: ${formDetails.Cave}
+                    Accès: ${formDetails.Acces}
+                    Ascenseur: ${formDetails.Ascenseur}
+                    Monte Charge: ${formDetails.Monte_charge}
+                    Cartons: ${formDetails.Cartons}
+                    Commentaires: ${formDetails.Commentaires}
+                    Coût Estimé: ${formDetails.Estimated_cost} CHF
+
+                    Nous vous assurons que notre équipe dévouée mettra tout en œuvre pour rendre votre déménagement aussi fluide et serein que possible. Nous vous offrons un service de qualité, alliant professionnalisme et soin.
+
+                    Votre mandat de déménagement :
+
+                    Pour confirmer votre déménagement avec nous, veuillez répondre à cet e-mail ou nous contacter directement par téléphone au +41 78 749 35 94. Un membre de notre équipe se fera un plaisir de finaliser les détails avec vous.
+
+                    En acceptant notre mandat, vous aurez accès à :
+
+                    - Une planification sur mesure de votre déménagement.
+                    - Un interlocuteur dédié pour répondre à toutes vos questions.
+                    - Des conseils pratiques pour préparer votre départ.
+
+                    Nous restons à votre disposition pour toute information complémentaire. N'hésitez pas à visiter notre site web https://ljdemenagement.com pour plus d'informations sur nos services.
+
+                    Merci de nous faire confiance pour votre projet de déménagement. Nous espérons avoir bientôt le plaisir de vous accompagner dans cette nouvelle étape de votre vie.
+
+                    Cordialement,
+
+                    L'équipe L&J Déménagement
+                `;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    to_email: formDetails.Email,
+                    from_name: "L&J Déménagement",
+                    reply_to: formDetails.Email,
+                    subject: "Demande de devis de L&J Déménagement",
+                    message: message
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showConfirmationMessage();
+                    showPage('page3');
                 }, (err) => {
-                    console.error('Failed to send form...', err);
+                    console.error('FAILED...', err);
+                    showNotification("Échec de l'envoi du formulaire.", 'error');
                 });
             }
 
-            function handleFormuleChange() {
-                const formule = document.getElementById('formule').value;
-                const nettoyage = document.querySelector('[data-question="10"] select');
-                const meubles = document.querySelector('[data-question="14"] select');
+            function checkAdditionalCost() {
+                const optionsWithAsterisk = ['halle_industriel', 'bureau', 'usine', 'autre', 'plus_de_100m²', 'plus_de_110m²', 'plus_de_120m²', 'plus_de_130m²', 
+                    'plus_de_140m²', 'plus_de_150m²', 'plus_de_160m²', 'plus_de_170m²', 'plus_de_180m²', 'plus_de_200m²', 'plus_de_220m²', 'plus_de_240m²', 
+                    'plus_de_250m²', 'plus_de_300m²', 'plus_de_330m²', 'plus_de_400m²', 'plus_de_500m²', 'plus_de_600m²', 'plus_de_700m²', 'plus_de_800m²', 
+                    'plus_de_1000m²', 'difficile', 'plus_110', 'plus_210', 'plus_de_huit'];
 
-                if (formule === 'prestige') {
-                    nettoyage.disabled = false;
-                    meubles.disabled = false;
+                const selectedOptions = Array.from(document.querySelectorAll('select')).map(select => select.value);
+                const hasAsteriskOption = selectedOptions.some(option => optionsWithAsterisk.includes(option));
+
+                if (hasAsteriskOption) {
+                    document.getElementById('additional-cost-message').classList.remove('hidden');
                 } else {
-                    nettoyage.disabled = true;
-                    meubles.disabled = true;
+                    document.getElementById('additional-cost-message').classList.add('hidden');
                 }
             }
 
-            function unlockQuestion(questionNumber, unlock) {
-                const question = document.querySelector(`[data-question="${questionNumber}"] select`);
-                question.disabled = !unlock;
-                if (unlock) {
-                    document.getElementById(`question${questionNumber}-options`).classList.add('hidden');
-                }
+            function showConfirmationMessage() {
+                const confirmationMessage = document.getElementById('confirmation-message');
+                confirmationMessage.style.display = 'block';
+                confirmationMessage.innerText = "Confirmation de l'envoi";
+                setTimeout(() => {
+                    confirmationMessage.style.display = 'none';
+                }, 3000);
+            }
+
+            function markContacted() {
+                const email = document.getElementById('email').value;
+
+                emailjs.send("service_wd4pvu4", "template_e3f3f4p", {
+                    reply_to: email,
+                    from_name: "L&J Déménagement",
+                    subject: "Demande de contact",
+                    message: "Vous serez contacté par un agent de L&J Déménagement."
+                }).then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Votre demande a été envoyée avec succès !');
+                }, (err) => {
+                    console.error('FAILED...', err);
+                    alert("Échec de l'envoi de la demande.");
+                });
+            }
+
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.className = `notification ${type}`;
+                notification.innerText = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
             }
 
             function handleObjetChange() {
@@ -622,7 +1169,7 @@
                             <option value="250_259" data-cost="20">250m² à 259m²</option>
                             <option value="260_269" data-cost="30">260m² à 269m²</option>
                             <option value="plus_de_270m²" data-cost="40">Plus de 270m²*</option>
-                        </select>`
+                        </select>`,
                 };
 
                 sousOptionsDiv.innerHTML = pieceOptions[pieces];
@@ -640,402 +1187,13 @@
                 }
             }
 
-            // Ajout du bouton WhatsApp
             const whatsappButton = document.createElement('a');
             whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
             whatsappButton.target = "_blank";
             whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
             document.body.appendChild(whatsappButton);
+
         </script>
-
-        <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
-            <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold text-blue-600 mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
-                <p class="text-gray-700 mb-4 text-base font-bold">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
-                <p class="text-gray-700 mb-6 text-base font-bold">RÉPONDEZ À 23 QUESTIONS ET DÉCOUVREZ VOTRE PRIX INSTANTANÉMENT.</p>
-                <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="showPage('page2')">Démarrer votre devis maintenant</button>
-                <p class="text-green-500 mt-4 font-bold">178 Devis Réalisés la semaine dernière</p>
-                <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-tiktok"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-
-        <div id="page2" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-80 shadow-md rounded-lg overflow-hidden hidden">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">Votre Déménagement Commence ici</h1>
-                <div class="progress-bar">
-                    <div id="progress" class="progress"></div>
-                </div>
-                <form id="devisForm" onsubmit="return false;">
-                    <div class="form-group mb-4" data-question="1">
-                        <label for="nom_prenom" class="block text-gray-700">1. Nom et Prénom :</label>
-                        <input type="text" id="nom_prenom" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Alan Favre" required oninput="validateInput('nom_prenom', 'name-obligatory', 'nom-next-button')">
-                        <p id="name-obligatory" class="validation-message"><i class="fas fa-exclamation-circle"></i> Champ obligatoire.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button next-button" id="nom-next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="2">
-                        <label for="email" class="block text-gray-700">2. Adresse Mail :</label>
-                        <input type="email" id="email" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : alan.favre@exemple.com" required oninput="validateInput('email', 'email-obligatory', 'email-next-button', /^[^\s@]+@[^\s@]+\.[^\s@]+$/)">
-                        <p id="email-obligatory" class="validation-message"><i class="fas fa-exclamation-circle"></i> Champ obligatoire.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="email-next-button" disabled onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="3">
-                        <label for="telephone" class="block text-gray-700">3. Numéro de Téléphone :</label>
-                        <input type="tel" id="telephone" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : 077 345 34 45" required oninput="validateInput('telephone', 'telephone-obligatory', 'telephone-next-button', /^\d{10,15}$/)">
-                        <p id="telephone-obligatory" class="validation-message"><i class="fas fa-exclamation-circle"></i> Champ obligatoire.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="telephone-next-button" disabled onclick="sendInitialData()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="4">
-                        <label for="adresse_actuelle" class="block text-gray-700">4. Votre Adresse Actuelle :</label>
-                        <input type="text" id="adresse_actuelle" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Av Louis 5, 1400 Yverdon" required oninput="validateInput('adresse_actuelle', 'address1-obligatory', 'adresse-next-button')">
-                        <p id="address1-obligatory" class="validation-message"><i class="fas fa-exclamation-circle"></i> Champ obligatoire.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" id="adresse-next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="5">
-                        <label for="adresse_future" class="block text-gray-700">5. Adresse de Destination :</label>
-                        <input type="text" id="adresse_future" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="exemple : Rue du Lac 8, 1003 Lausanne" required oninput="validateInput('adresse_future', 'address2-obligatory', 'next-button')">
-                        <p id="address2-obligatory" class="validation-message"><i class="fas fa-exclamation-circle"></i> Champ obligatoire.</p>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="6">
-                        <label for="statut" class="block text-gray-700">6. Votre Statut :</label>
-                        <select id="statut" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="Particulier">Particulier</option>
-                            <option value="Entreprise">Entreprise</option>
-                            <option value="Autre">Autre</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="7">
-                        <label for="formule" class="block text-gray-700">7. Sélection de la Formule :</label>
-                        <select id="formule" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleFormuleChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="economique">Formule Économique (Chargement & Déchargement / Transport)</option>
-                            <option value="premium">Formule Premium (Chargement & Déchargement / Transport / Démontage et Remontage des meubles)</option>
-                            <option value="prestige">Formule Prestige (Chargement & Déchargement / Transport / Démontage et Remontage des meubles / Emballage & Déballage / Nettoyage fin de bail)</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="8">
-                        <label for="objet" class="block text-gray-700">8. Type de Logement :</label>
-                        <select id="objet" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleObjetChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="Appartement">Appartement</option>
-                            <option value="Maison">Maison</option>
-                            <option value="Locaux">Locaux</option>
-                            <option value="Autre">Autre*</option>
-                        </select>
-                        <div id="sous-options-objet" class="nested-option hidden"></div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="9">
-                        <label for="pieces" class="block text-gray-700">9. Nombre de Pièces :</label>
-                        <select id="pieces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handlePiecesChange()">
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="studio">Studio</option>
-                            <option value="une_piece">Une pièce</option>
-                            <option value="deux_pieces">Deux pièces</option>
-                            <option value="trois_pieces">Trois pièces</option>
-                            <option value="quatre_pieces">Quatre pièces</option>
-                            <option value="cinq_pieces">Cinq pièces</option>
-                            <option value="six_pieces">Six pièces</option>
-                            <option value="sept_pieces">Sept pièces</option>
-                            <option value="huit_pieces">Huit pièces</option>
-                            <option value="neuf_pieces">Neuf pièces</option>
-                            <option value="dix_pieces">Dix pièces</option>
-                        </select>
-                        <div id="sous-options-pieces" class="nested-option hidden"></div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="10">
-                        <label for="nettoyage" class="block text-gray-700 question-optional">10. Service de Nettoyage :</label>
-                        <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">Pas de nettoyage</option>
-                            <option value="30_49">30 m² à 49 m²</option>
-                            <option value="50_69">50 m² à 69 m²</option>
-                            <option value="70_89">70 m² à 89 m²</option>
-                            <option value="90_109">90 m² à 109 m²</option>
-                            <option value="110_129">110 m² à 129 m²</option>
-                            <option value="130_149">130 m² à 149 m²</option>
-                            <option value="150_169">150 m² à 169 m²</option>
-                            <option value="170_189">170 m² à 189 m²</option>
-                            <option value="190_209">190 m² à 209 m²</option>
-                            <option value="210_229">210 m² à 229 m²</option>
-                            <option value="230_249">230 m² à 249 m²</option>
-                            <option value="250_269">250 m² à 269 m²</option>
-                            <option value="270_289">270 m² à 289 m²</option>
-                            <option value="290_309">290 m² à 309 m²</option>
-                            <option value="plus_210">Plus de 210m²*</option>
-                        </select>
-                        <div id="question10-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="11">
-                        <label for="distance" class="block text-gray-700">11. Distance du Déménagement :</label>
-                        <select id="distance" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0_9">0-9 km</option>
-                            <option value="10_29">10-29 km</option>
-                            <option value="30_49">30-49 km</option>
-                            <option value="50_69">50-69 km</option>
-                            <option value="70_89">70-89 km</option>
-                            <option value="90_109">90-109 km</option>
-                            <option value="plus_110">Plus de 110km*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="12">
-                        <label for="lit_adulte" class="block text-gray-700">12. Nombre de Lits Adultes (90x200cm à 180x200cm) :</label>
-                        <select id="lit_adulte" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="13">
-                        <label for="lit_enfant" class="block text-gray-700">13. Nombre de Lits Enfants (70x140cm à 90x190cm):</label>
-                        <select id="lit_enfant" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="14">
-                        <label for="meubles" class="block text-gray-700 question-optional">14. Meubles à Démonter et Remonter :</label>
-                        <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div id="question14-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
-                            <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
-                            <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
-                        </div>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="15">
-                        <label for="canape" class="block text-gray-700">15. Type de Canapés :</label>
-                        <select id="canape" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">Pas de canapés</option>
-                            <option value="1">Canapé droit, trois places ou moins</option>
-                            <option value="2">Canapé droit, plus de trois places</option>
-                            <option value="3">Canapé d'angle</option>
-                            <option value="4">Set de canapés 3+2+1</option>
-                            <option value="autre">Autre*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="16">
-                        <label for="frigo" class="block text-gray-700">16. Nombre de réfrigérateurs, machines à laver, lave-vaisselle :</label>
-                        <select id="frigo" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="plus_de_huit">Plus de huit*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="17">
-                        <label for="balcon" class="block text-gray-700">17. Présence d'un Balcon ou Terrasse :</label>
-                        <select id="balcon" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="balcon">Oui, balcon</option>
-                            <option value="terrasse">Oui, terrasse</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="18">
-                        <label for="cave" class="block text-gray-700">18. Présence d'une Cave :</label>
-                        <select id="cave" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="oui">Oui</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="19">
-                        <label for="acces" class="block text-gray-700">19. Conditions d'Accès au Bâtiment :</label>
-                        <select id="acces" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="facile">Facile</option>
-                            <option value="difficile">Difficile*</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="20">
-                        <label for="ascenseur" class="block text-gray-700">20. Ascenseur Disponible dans Le Bâtiment :</label>
-                        <select id="ascenseur" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="rez_de_chaussee">Rez-de-chaussée</option>
-                            <option value="deux_adresses">Oui aux deux adresses</option>
-                            <option value="une_adresse">Oui à une seule adresse</option>
-                            <option value="non">Non</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="21">
-                        <label for="monte_charge" class="block text-gray-700">21. Monte-Meuble Nécessaire :</label>
-                        <select id="monte_charge" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="oui">Oui</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="22">
-                        <label for="cartons" class="block text-gray-700">22. Besoin de Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
-                        <select id="cartons" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="" disabled selected>Choisissez…</option>
-                            <option value="non">Non</option>
-                            <option value="formule_m">Formule M (lot de 10 cartons) à 49.-</option>
-                            <option value="formule_l">Formule L (lot de 30 cartons) à 138.-</option>
-                            <option value="formule_xl">Formule XL (lot de 60 cartons) à 270.-</option>
-                        </select>
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="nextQuestion()">Suivant</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-4 hidden" data-question="23">
-                        <label for="commentaires" class="block text-gray-700">23. Commentaires ou Informations Supplémentaires :</label>
-                        <input type="text" id="commentaires" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Toute information supplémentaire">
-                        <div class="flex justify-between">
-                            <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
-                            <button type="button" class="navigation-button next-button" onclick="validateForm()">Connaitre le coût de mon déménagement</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-tiktok"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-
-        <div id="page3" class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-lg overflow-hidden hidden">
-            <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
-                <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
-                <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
-                <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
-                <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-tiktok"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
     </div>
 </body>
 </html>
