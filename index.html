@@ -58,21 +58,57 @@
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
-        .video-background {
-            position: fixed;
-            top: -1.7cm;
-            left: -0.01cm;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .video-background iframe {
-            width: 116%;
-            height: 116%;
-            object-fit: cover;
-        }
-        .content-container {
+        .vdeo-background {
+                position: fixed; /* Fixer la vidéo à l'arrière-plan */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* Prendre toute la hauteur de l'écran */
+                overflow: hidden; /* Cacher le débordement pour le zoom */
+            }
+    
+            .video-desktop {
+        position: absolute;
+        top: - 8cm; /* Déplacer la vidéo de 14 cm vers le haut */
+        left: 11cm; /* Déplacer la vidéo de 11 cm vers la gauche */
+        width: 100%; /* Prendre toute la largeur */
+        height: 100%; /* Prendre toute la hauteur */
+        transform: translate(-50%, -50%) scale(1.5); /* Centrer et dészoomer légèrement */
+        object-fit: cover; /* Couvrir l'élément parent */
+        z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
+    }
+
+    .video-mobile {
+    position: absolute;
+    top: 7.5cm; /* Déplacer la vidéo de 7.5 cm vers le bas */
+    left: - 2cm; /* Déplacer la vidéo de 2 cm vers la droite */
+    width: calc(100% + 1cm); /* Prendre toute la largeur plus 1 cm pour compenser */
+    height: calc(100% + 1cm); /* Prendre toute la hauteur plus 1 cm pour compenser */
+    transform: scale(2.9); /* Zoomer à 2.9 sur la vidéo mobile */
+    object-fit: cover; /* Couvrir l'élément parent */
+    z-index: 1; /* Assurez-vous que la vidéo est derrière l'overlay */
+}
+    
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0); /* Transparent */
+                z-index: 10; /* La couche doit être au-dessus de la vidéo */
+            }
+            .video-background iframe {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            @media (max-width: 768px) {
+                .video-background iframe {
+                    height: 56.25vw; /* Correspond à 16:9 en fonction de la largeur */
+                }
+            }
+            .content-container {
             position: relative;
             z-index: 1;
             background-color: rgba(255, 255, 255, 0.01);
@@ -126,7 +162,9 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <div class="video-background">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe class="video-desktop" src="https://www.youtube.com/embed/zy-fy2s7KEg?autoplay=1&mute=1&loop=1&playlist=zy-fy2s7KEg&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe class="video-mobile hidden" src="https://www.youtube.com/embed/Y3ClPbMKc38?autoplay=1&mute=1&loop=1&playlist=Y3ClPbMKc38&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="overlay"></div> <!-- Couche invisible ajoutée ici -->
     </div>
 
     <div class="content-container">
@@ -134,10 +172,25 @@
         <script type="text/javascript">
             (function () {
                 emailjs.init("es5i8pk88qOLfaaBj");
-            })();
-        </script>
+    })();
 
-        <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    // Ajoutez ici la détection de l'appareil
+    window.onload = function() {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const desktopVideo = document.querySelector('.video-desktop');
+        const mobileVideo = document.querySelector('.video-mobile');
+
+        if (isMobile) {
+            desktopVideo.classList.add('hidden'); // Cacher la vidéo desktop
+            mobileVideo.classList.remove('hidden'); // Afficher la vidéo mobile
+        } else {
+            mobileVideo.classList.add('hidden'); // Cacher la vidéo mobile
+            desktopVideo.classList.remove('hidden'); // Afficher la vidéo desktop
+        }
+    };
+</script>
+
+    <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <div class="p-6 text-center">
                 <h1 class="text-2xl font-bold text-blue-600 mb-6">Rapide, Simple et Transparent Avec L&J Déménagement</h1>
                 <p class="text-gray-700 mb-4 text-base font-bold">OBTENEZ LE PRIX DE VOTRE DEVIS EN 5 MINUTES AVEC NOTRE APPLICATION UNIQUE EN SUISSE.</p>
