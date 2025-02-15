@@ -297,7 +297,45 @@
                     obligatoryMessage.classList.remove('valid');
                 }
             }
-</script>
+
+            function unlockQuestion(questionNumber, hideOptions = false) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = false;
+                if (hideOptions) {
+                    const optionsDiv = document.getElementById(`question${questionNumber}-options`);
+                    if (optionsDiv) {
+                        optionsDiv.classList.add('hidden');
+                    }
+                }
+            }
+
+            function lockQuestion(questionNumber) {
+                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+                questionElement.disabled = true;
+            }
+            
+            function handleFormuleChange() {
+                const formule = document.getElementById('formule').value;
+
+                document.getElementById('question10-options').classList.add('hidden');
+                document.getElementById('question14-options').classList.add('hidden');
+
+                if (formule === 'economique') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    document.getElementById('question14-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    lockQuestion(14);
+                } else if (formule === 'premium') {
+                    document.getElementById('question10-options').classList.remove('hidden');
+                    lockQuestion(10);
+                    unlockQuestion(14);
+                } else if (formule === 'prestige') {
+                    unlockQuestion(10);
+                    unlockQuestion(14);
+                }
+            }
+
+        </script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <div class="p-6 text-center">
@@ -1208,7 +1246,7 @@
                             <option value="250_259" data-cost="20">250m² à 259m²</option>
                             <option value="260_269" data-cost="30">260m² à 269m²</option>
                             <option value="plus_de_270m²" data-cost="40">Plus de 270m²*</option>
-                        </select>`,
+                        </select>`
                 };
 
                 sousOptionsDiv.innerHTML = pieceOptions[pieces];
@@ -1231,88 +1269,6 @@
             whatsappButton.target = "_blank";
             whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
             document.body.appendChild(whatsappButton);
-
-            // Fonctionnalité pour verrouiller ou déverrouiller les questions en fonction de la formule sélectionnée
-            function handleFormuleChange() {
-                const formule = document.getElementById('formule').value;
-
-                document.getElementById('question10-options').classList.add('hidden');
-                document.getElementById('question14-options').classList.add('hidden');
-
-                if (formule === 'economique') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    document.getElementById('question14-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    lockQuestion(14);
-                } else if (formule === 'premium') {
-                    document.getElementById('question10-options').classList.remove('hidden');
-                    lockQuestion(10);
-                    unlockQuestion(14);
-                } else if (formule === 'prestige') {
-                    unlockQuestion(10);
-                    unlockQuestion(14);
-                }
-            }
-
-            function lockQuestion(questionNumber) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = true;
-            }
-
-            function unlockQuestion(questionNumber, hideOptions = false) {
-    const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-    questionElement.disabled = false;
-    
-    if (hideOptions) {
-        const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-        if (optionsDiv) {
-            optionsDiv.classList.add('hidden');
-                }
-            }
-
-            // Gérer l'affichage des options supplémentaires pour les questions 10 et 14
-            function handleQuestionOptions() {
-                const question10 = document.querySelector('[data-question="10"]');
-                const question14 = document.querySelector('[data-question="14"]');
-
-                // Lorsque le bouton "Oui" est sélectionné pour la question 10
-                question10.querySelector(`[data-question="10"] button[onclick^="unlockQuestion(10, true)"]`).onclick = function() {
-    unlockQuestion(10, true);
-    nextQuestion();
-};
-
-document.querySelector(`[data-question="14"] button[onclick^="unlockQuestion(14, true)"]`).onclick = function() {
-    unlockQuestion(14, true);
-    nextQuestion();
-};
-            }
-
-            // Calculer et afficher le coût du déménagement
-            function calculateMovingCost() {
-                const calculateButton = document.getElementById('calculate-cost-button');
-                calculateButton.addEventListener('click', function() {
-                    let totalCost = 0;
-
-                    // Calcul basé sur les options sélectionnées
-                    const selectedOptions = document.querySelectorAll('select');
-                    selectedOptions.forEach(option => {
-                        totalCost += parseFloat(option.selectedOptions[0].dataset.cost || 0);
-                    });
-
-                    // Affichage du coût total
-                    document.getElementById('prixDevis').innerText = totalCost.toFixed(2) + ' CHF';
-                });
-            }
-
-            // Initialiser les gestionnaires d'événements
-            function init() {
-                handleFormuleChange();
-                handleQuestionOptions();
-                calculateMovingCost();
-            }
-
-            // Appeler la fonction d'initialisation lorsque le DOM est prêt
-            document.addEventListener('DOMContentLoaded', init);
 
             // JavaScript pour le code promo
             document.getElementById("promo-code").addEventListener("input", function() {
@@ -1362,13 +1318,15 @@ document.querySelector(`[data-question="14"] button[onclick^="unlockQuestion(14,
                 }
             });
 
-            const whatsappButton = document.createElement('a');
-            whatsappButton.href = "https://api.whatsapp.com/send?phone=41774786342";
-            whatsappButton.target = "_blank";
-            whatsappButton.innerHTML = '<button class="whatsapp-button"><i class="fab fa-whatsapp"></i></button>';
-            document.body.appendChild(whatsappButton);
+            // Initialiser les gestionnaires d'événements
+            function init() {
+                handleFormuleChange();
+                handleObjetChange();
+                handlePiecesChange();
+            }
 
-            // Fin du script
+            // Appeler la fonction d'initialisation lorsque le DOM est prêt
+            document.addEventListener('DOMContentLoaded', init);
         </script>
     </div>
 </body>
