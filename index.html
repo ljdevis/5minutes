@@ -67,6 +67,12 @@
             z-index: -1;
             pointer-events: none;
         }
+
+        @media (max-width: 768px) {
+        .video-background {
+            top: calc(-1.7cm - 1cm); /* Déplace la vidéo 1 cm vers le haut */
+            }
+        }
         .video-background iframe {
             width: 116%;
             height: 116%;
