@@ -1268,6 +1268,59 @@
                 }
             }
 
+            // Gérer l'affichage des options supplémentaires pour les questions 10 et 14
+            function handleQuestionOptions() {
+                const question10 = document.querySelector('[data-question="10"]');
+                const question14 = document.querySelector('[data-question="14"]');
+
+                // Lorsque le bouton "Oui" est sélectionné pour la question 10
+                question10.querySelector('input[value="oui"]').addEventListener('change', function() {
+                    const optionsDiv = document.getElementById('question10-options');
+                    if (this.checked) {
+                        optionsDiv.classList.remove('hidden');
+                    } else {
+                        optionsDiv.classList.add('hidden');
+                    }
+                });
+
+                // Lorsque le bouton "Oui" est sélectionné pour la question 14
+                question14.querySelector('input[value="oui"]').addEventListener('change', function() {
+                    const optionsDiv = document.getElementById('question14-options');
+                    if (this.checked) {
+                        optionsDiv.classList.remove('hidden');
+                    } else {
+                        optionsDiv.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Calculer et afficher le coût du déménagement
+            function calculateMovingCost() {
+                const calculateButton = document.getElementById('calculate-cost-button');
+                calculateButton.addEventListener('click', function() {
+                    let totalCost = 0;
+
+                    // Calcul basé sur les options sélectionnées
+                    const selectedOptions = document.querySelectorAll('select');
+                    selectedOptions.forEach(option => {
+                        totalCost += parseFloat(option.selectedOptions[0].dataset.cost || 0);
+                    });
+
+                    // Affichage du coût total
+                    document.getElementById('prixDevis').innerText = totalCost.toFixed(2) + ' CHF';
+                });
+            }
+
+            // Initialiser les gestionnaires d'événements
+            function init() {
+                handleFormuleChange();
+                handleQuestionOptions();
+                calculateMovingCost();
+            }
+
+            // Appeler la fonction d'initialisation lorsque le DOM est prêt
+            document.addEventListener('DOMContentLoaded', init);
+
             // JavaScript pour le code promo
             document.getElementById("promo-code").addEventListener("input", function() {
                 const promoCode = this.value.trim();
