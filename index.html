@@ -342,9 +342,9 @@
                         <label for="formule" class="block text-gray-700">7. Sélection de la Formule :</label>
                         <select id="formule" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required onchange="handleFormuleChange()">
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="economique">Formule Économique (Chargement & Déchargement / Transport)</option>
-                            <option value="premium">Formule Premium (Chargement & Déchargement / Transport / Démontage et Remontage des meubles)</option>
-                            <option value="prestige">Formule Prestige (Chargement & Déchargement / Transport / Démontage et Remontage des meubles / Emballage & Déballage / Nettoyage fin de bail)</option>
+                            <option value="economique">Économique (Chargement & Déchargement / Transport)</option>
+                            <option value="premium">Premium (Chargement & Déchargement / Transport / Démontage et Remontage des meubles)</option>
+                            <option value="prestige">Prestige (Chargement & Déchargement / Transport / Démontage et Remontage des meubles / Emballage & Déballage / Nettoyage fin de bail)</option>
                         </select>
                         <div class="flex justify-between">
                             <button type="button" class="navigation-button back-button" onclick="previousQuestion()">Retour</button>
@@ -393,24 +393,20 @@
                         <select id="nettoyage" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">Pas de nettoyage</option>
-                            <option value="30_49">30 m² à 49 m²</option>
-                            <option value="50_69">50 m² à 69 m²</option>
-                            <option value="70_89">70 m² à 89 m²</option>
-                            <option value="90_109">90 m² à 109 m²</option>
-                            <option value="110_129">110 m² à 129 m²</option>
-                            <option value="130_149">130 m² à 149 m²</option>
-                            <option value="150_169">150 m² à 169 m²</option>
-                            <option value="170_189">170 m² à 189 m²</option>
-                            <option value="190_209">190 m² à 209 m²</option>
-                            <option value="210_229">210 m² à 229 m²</option>
-                            <option value="230_249">230 m² à 249 m²</option>
-                            <option value="250_269">250 m² à 269 m²</option>
-                            <option value="270_289">270 m² à 289 m²</option>
-                            <option value="290_309">290 m² à 309 m²</option>
-                            <option value="plus_210">Plus de 210m²*</option>
+                            <option value="30_49">30 m² à 49 m² (200chf)</option>
+                            <option value="50_69">50 m² à 69 m² (350chf)</option>
+                            <option value="70_89">70 m² à 89 m² (500chf)</option>
+                            <option value="90_109">90 m² à 109 m² (650chf)</option>
+                            <option value="110_129">110 m² à 129 m² (800chf)</option>
+                            <option value="130_149">130 m² à 149 m² (950chf)</option>
+                            <option value="150_169">150 m² à 169 m² (1100chf)</option>
+                            <option value="170_189">170 m² à 189 m² (1250chf)</option>
+                            <option value="190_209">190 m² à 209 m² (1400chf)</option>
+                            <option value="210_229">210 m² à 229 m² (1550chf)</option>
+                            <option value="plus_210">Plus de 230m²*</option>
                         </select>
                         <div id="question10-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <p>Cette question est optionnelle à la formule choisie. Souhaitez-vous l’ajouter ?</p>
                             <button type="button" class="navigation-button" onclick="unlockQuestion(10, true)">Oui</button>
                             <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         </div>
@@ -423,12 +419,12 @@
                         <label for="distance" class="block text-gray-700">11. Distance du Déménagement :</label>
                         <select id="distance" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="" disabled selected>Choisissez…</option>
-                            <option value="0_9">0-9 km</option>
-                            <option value="10_29">10-29 km</option>
-                            <option value="30_49">30-49 km</option>
-                            <option value="50_69">50-69 km</option>
-                            <option value="70_89">70-89 km</option>
-                            <option value="90_109">90-109 km</option>
+                            <option value="0_9">0-9 km (Gratuit)</option>
+                            <option value="10_29">10-29 km (50chf)</option>
+                            <option value="30_49">30-49 km (80chf)</option>
+                            <option value="50_69">50-69 km (120chf)</option>
+                            <option value="70_89">70-89 km (160chf)</option>
+                            <option value="90_109">90-109 km (200chf)</option>
                             <option value="plus_110">Plus de 110km*</option>
                         </select>
                         <div class="flex justify-between">
@@ -477,7 +473,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="14">
-                        <label for="meubles" class="block text-gray-700">14. Meubles à Démonter et Remonter :</label>
+                        <label for="meubles" class="block text-gray-700">14. Nombre de meubles et d'armoires à habits de grande taille nécessitant démontage et remontage pour le transport (les lits ne comptent pas) :</label>
                         <select id="meubles" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" disabled>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -492,7 +488,7 @@
                             <option value="plus_de_huit">Plus de huit*</option>
                         </select>
                         <div id="question14-options" class="mt-2 text-center optional-question">
-                            <p>Cette question est optionnelle selon la formule choisie. Souhaitez-vous l’ajouter ?</p>
+                            <p>Cette question est optionnelle à la formule choisie. Souhaitez-vous l’ajouter ?</p>
                             <button type="button" class="navigation-button" onclick="unlockQuestion(14, true)">Oui</button>
                             <button type="button" class="navigation-button" onclick="nextQuestion()">Non</button>
                         </div>
@@ -601,7 +597,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-4 hidden" data-question="22">
-                        <label for="cartons" class="block text-gray-700">22. Besoin de Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
+                        <label for="cartons" class="block text-gray-700">22. Formule Cartons : (Nous vous livrons les cartons à votre adresse gratuitement)</label>
                         <select id="cartons" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="non">Non</option>
@@ -634,11 +630,11 @@
                 <h1 class="text-2xl font-bold text-blue-600 mb-6">Votre Déménagement Pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
                 <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
                 <p id="discount-message" class="promotion-message hidden">Rabais de 10% sur nos offres de janvier !</p>
-                <p class="text-gray-700 mb-6">Offre valable jusqu'au 31 Janvier</p>
-                <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Réservez maintenant votre déménagement à ce tarif exceptionnel.</button>
+                <p class="text-gray-700 mb-6">L&J Déménagement vous remercie pour votre fidélité</p>
+                <button class="bg-green-500 text-white py-2 px-4 mb-4 rounded-md hover:bg-green-600" onclick="markContacted()">Je souhaite organiser une visioconférence pour valider mon devis</button>
                 <div class="mb-4">
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com'">Site Web</button>
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/contact'">Page de Contact</button>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" onclick="window.location.href='https://ljdemenagement.com/boutique'">La Boutique L&J Déménagement</button>
                 </div>
                 <div class="social-icons">
                     <i class="fab fa-facebook-f"></i>
@@ -691,19 +687,19 @@
                 const monte_charge = document.getElementById('monte_charge').value;
 
                 if (formule === 'economique') cost += 0;
-                else if (formule === 'premium') cost += 100;
+                else if (formule === 'premium') cost += 0;
                 else if (formule === 'prestige') cost += cost * 1;
 
                 const piecesCost = {
                     studio: 450,
                     une_piece: 600,
-                    deux_pieces: 900,
-                    trois_pieces: 1250,
-                    quatre_pieces: 1550,
+                    deux_pieces: 800,
+                    trois_pieces: 1150,
+                    quatre_pieces: 1450,
                     cinq_pieces: 1800,
-                    six_pieces: 2300,
-                    sept_pieces: 2550,
-                    huit_pieces: 2800,
+                    six_pieces: 2200,
+                    sept_pieces: 2450,
+                    huit_pieces: 2700,
                     neuf_pieces: 3050,
                     dix_pieces: 3400
                 };
@@ -719,16 +715,16 @@
                 }
 
                 const nettoyageCosts = {
-                    '30_49': 350,
-                    '50_69': 450,
-                    '70_89': 600,
-                    '90_109': 750,
-                    '110_129': 900,
-                    '130_149': 1050,
-                    '150_169': 1200,
-                    '170_189': 1350,
-                    '190_209': 1500,
-                    'plus_210': 1650
+                    '30_49': 200,
+                    '50_69': 350,
+                    '70_89': 500,
+                    '90_109': 650,
+                    '110_129': 800,
+                    '130_149': 950,
+                    '150_169': 1100,
+                    '170_189': 1250,
+                    '190_209': 1400,
+                    'plus_210': 1550
                 };
                 cost += nettoyageCosts[nettoyage] || 0;
 
@@ -738,7 +734,7 @@
                     '30_49': 80,
                     '50_69': 120,
                     '70_89': 160,
-                    '90_109': 210,
+                    '90_109': 200,
                     'plus_110': 300
                 };
                 cost += distanceCosts[distance] || 0;
@@ -753,7 +749,7 @@
                 const litAdulteCosts = {
                     '0': 0,
                     '1': 0,
-                    '2': 50,
+                    '2': 0,
                     '3': 100,
                     '4': 150,
                     '5': 200,
@@ -796,8 +792,8 @@
                     '0': -50,
                     '1': 0,
                     '2': 0,
-                    '3': 50,
-                    '4': 75,
+                    '3': 25,
+                    '4': 50,
                     'autre': 0
                 };
                 cost += canapeCosts[canape] || 0;
@@ -805,13 +801,13 @@
                 const frigoCosts = {
                     '0': 0,
                     '1': 0,
-                    '2': 50,
-                    '3': 100,
-                    '4': 150,
-                    '5': 200,
-                    '6': 250,
-                    '7': 300,
-                    '8': 350,
+                    '2': 25,
+                    '3': 50,
+                    '4': 75,
+                    '5': 100,
+                    '6': 125,
+                    '7': 150,
+                    '8': 200,
                     'plus_de_huit': 400
                 };
                 cost += frigoCosts[frigo] || 0;
