@@ -1260,11 +1260,13 @@
             }
 
             function unlockQuestion(questionNumber, hideOptions = false) {
-                const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
-                questionElement.disabled = false;
-                const optionsDiv = document.getElementById(`question${questionNumber}-options`);
-                if (optionsDiv && hideOptions) {
-                    optionsDiv.classList.add('hidden');
+    const questionElement = document.querySelector(`[data-question="${questionNumber}"] select`);
+    questionElement.disabled = false;
+    
+    if (hideOptions) {
+        const optionsDiv = document.getElementById(`question${questionNumber}-options`);
+        if (optionsDiv) {
+            optionsDiv.classList.add('hidden');
                 }
             }
 
@@ -1274,24 +1276,15 @@
                 const question14 = document.querySelector('[data-question="14"]');
 
                 // Lorsque le bouton "Oui" est sélectionné pour la question 10
-                question10.querySelector('input[value="oui"]').addEventListener('change', function() {
-                    const optionsDiv = document.getElementById('question10-options');
-                    if (this.checked) {
-                        optionsDiv.classList.remove('hidden');
-                    } else {
-                        optionsDiv.classList.add('hidden');
-                    }
-                });
+                question10.querySelector(`[data-question="10"] button[onclick^="unlockQuestion(10, true)"]`).onclick = function() {
+    unlockQuestion(10, true);
+    nextQuestion();
+};
 
-                // Lorsque le bouton "Oui" est sélectionné pour la question 14
-                question14.querySelector('input[value="oui"]').addEventListener('change', function() {
-                    const optionsDiv = document.getElementById('question14-options');
-                    if (this.checked) {
-                        optionsDiv.classList.remove('hidden');
-                    } else {
-                        optionsDiv.classList.add('hidden');
-                    }
-                });
+document.querySelector(`[data-question="14"] button[onclick^="unlockQuestion(14, true)"]`).onclick = function() {
+    unlockQuestion(14, true);
+    nextQuestion();
+};
             }
 
             // Calculer et afficher le coût du déménagement
