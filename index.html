@@ -252,8 +252,17 @@
                 }
             }
 
-            // Additional functions to handle the form interactions
-        </script>
+            function validateAddress(inputId, messageId) {
+        const addressInput = document.getElementById(inputId);
+        const obligatoryMessage = document.getElementById(messageId);
+
+        if (/[a-z]/i.test(addressInput.value)) {
+            obligatoryMessage.classList.add('valid');
+        } else {
+            obligatoryMessage.classList.remove('valid');
+        }
+    }
+</script>
 
         <div id="page1" class="max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
             <div class="p-6 text-center">
