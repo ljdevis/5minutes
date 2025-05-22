@@ -11,11 +11,6 @@
             background-color: #7b7b7b;
             font-family: 'Roboto', sans-serif;
             color: #717070;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
         }
         .progress-bar {
             width: 100%;
@@ -59,8 +54,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(68, 68, 68, 0.828);
-            max-width: 600px;
-            width: 100%;
         }
         .form-group {
             margin-bottom: 20px;
@@ -119,6 +112,9 @@
         }
         .whatsapp-button:hover {
             background-color: #db61e4;
+        }
+        .page {
+            background-color: #1f1f1f; /* Change this to match the text background color */
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -227,7 +223,6 @@
             const acces = document.getElementById('acces').value;
             const ascenseur = document.getElementById('ascenseur').value;
             const monte_charge = document.getElementById('monte_charge').value;
-            const formule = document.getElementById('formule').value;
 
             const piecesCost = {
                 studio: 700,
@@ -351,11 +346,6 @@
             else if (ascenseur === 'une_adresse') cost += cost * 0.10;
             if (monte_charge === 'oui') cost += 700;
 
-            // Multiplication par 2 si la formule prestige est choisie
-            if (formule === 'prestige') {
-                cost *= 2;
-            }
-
             const today = new Date();
             let discountedCost = cost;
             if (today.getMonth() === 0) {
@@ -470,7 +460,7 @@
     </script>
 </head>
 
-<body>
+<body class="bg-gray-100 font-sans antialiased">
     <!-- Page 1 -->
     <div id="page1" class="page max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
@@ -483,8 +473,8 @@
     </div>
 
     <!-- Page 2 -->
-    <div id="page2" class="page hidden">
-        <div class="content-container mx-auto mt-10">
+    <div id="page2" class="page hidden bg-gray-100 font-sans antialiased">
+        <div class="content-container max-w-xl mx-auto mt-10">
             <h1 class="text-2xl font-bold text-center mb-6">MOVEXPRESS</h1>
 
             <div class="progress-bar">
@@ -514,19 +504,19 @@
                 <div id="group2" class="question-group hidden">
                     <!-- Grouping questions 4, 5, 6 -->
                     <div class="form-group">
-                        <label for="adresse_actuelle">Votre Adresse Actuelle & Étages :</label>
-                        <input type="text" id="adresse_actuelle" placeholder="Exemple : Rue de l'hôpital 20, 2000 Neuchâtel / 5ème étage" required>
+                        <label for="adresse_actuelle">Votre Adresse Actuelle & Etage :</label>
+                        <input type="text" id="adresse_actuelle" placeholder="Exemple : Rue de l'hopital 20, 2000 Neuchatel / 5ème étage" required>
                     </div>
                     <div class="form-group">
-                        <label for="adresse_future">Adresse de Destination & Étages :</label>
-                        <input type="text" id="adresse_future" placeholder="Exemple : Place de la Gare 1, 2000 Neuchâtel / Rez-de-chaussée" required>
+                        <label for="adresse_future">Adresse de Destination & Etage :</label>
+                        <input type="text" id="adresse_future" placeholder="Exemple : Place de la Gare 1, 2000 Neuchatel / Rez-de-chaussée" required>
                     </div>
                     <div class="form-group">
                         <label for="statut">Votre demande concerne :</label>
                         <select id="statut" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Une habitation">Particulier</option>
-                            <option value="Un local commercial">Entreprise</option>
+                            <option value="Un local commerciale">Entreprise</option>
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
@@ -544,7 +534,7 @@
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="economique">Déménagement</option>
                             <option value="premium">Déménagement / Nettoyage fin de bail</option>
-                            <option value="prestige">Déménagement / Mise en carton / Nettoyage fin de bail</option>
+                            <option value="prestige">Déménagement / Mise en carton / Nettoyage fin de bail /</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -553,7 +543,7 @@
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="Appartement">Appartement</option>
                             <option value="Maison">Maison</option>
-                            <option value="Locaux">Local commercial</option>
+                            <option value="Locaux">Local commerciale</option>
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
@@ -601,7 +591,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="distance">Distance entre votre adresse actuelle et votre prochaine adresse :</label>
+                        <label for="distance">Distance du entre votre adresse actuelle et votre prochaine adresse :</label>
                         <select id="distance" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0_9">0-9 km</option>
@@ -654,7 +644,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="meubles">Nombre d'armoires à démonter et remonter :</label>
+                        <label for="meubles">Nombre d'armoirs à démonter et remonter :</label>
                         <select id="meubles" required>
                             <option value="" disabled selected>Choisissez…</option>
                             <option value="0">0</option>
@@ -791,7 +781,7 @@
     </div>
 
     <!-- Page 3 -->
-    <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 bg-opacity-70 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
             <h1 class="text-2xl font-bold text-pink-600 mb-6">Votre Déménagement pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
             <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
