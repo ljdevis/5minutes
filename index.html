@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #7b7b7b;
+            background-color: #1f1f1f; /* Fond uniformisé */
             font-family: 'Roboto', sans-serif;
             color: #717070;
         }
@@ -50,7 +50,6 @@
         .content-container {
             position: relative;
             z-index: 1;
-            background-color: #1f1f1f;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(68, 68, 68, 0.828);
@@ -114,7 +113,7 @@
             background-color: #db61e4;
         }
         .page {
-            background-color: #1f1f1f; /* Change this to match the text background color */
+            background-color: transparent; /* Rendre le fond transparent */
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -462,7 +461,7 @@
 
 <body class="bg-gray-100 font-sans antialiased">
     <!-- Page 1 -->
-    <div id="page1" class="page max-w-xl mx-auto mt-10 bg-white bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    <div id="page1" class="page max-w-xl mx-auto mt-10 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
             <h1 class="text-2xl font-bold text-pink-600 mb-6">MOVEXPRESS</h1>
             <p class="text-gray-300 mb-4 text-base font-bold">Votre partenaire de confiance à l'international</p>
@@ -473,7 +472,7 @@
     </div>
 
     <!-- Page 2 -->
-    <div id="page2" class="page hidden bg-gray-100 font-sans antialiased">
+    <div id="page2" class="page hidden">
         <div class="content-container max-w-xl mx-auto mt-10">
             <h1 class="text-2xl font-bold text-center mb-6">MOVEXPRESS</h1>
 
@@ -781,7 +780,7 @@
     </div>
 
     <!-- Page 3 -->
-    <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 bg-opacity-70 shadow-md rounded-lg overflow-hidden">
+    <div id="costDisplay" class="page hidden max-w-xl mx-auto mt-10 shadow-md rounded-lg overflow-hidden">
         <div class="p-6 text-center">
             <h1 class="text-2xl font-bold text-pink-600 mb-6">Votre Déménagement pour Seulement <span class="discounted-price" id="originalCost"></span> CHF</h1>
             <p class="discounted-price text-2xl mb-4"><span id="discountedPrice"></span> CHF</p>
